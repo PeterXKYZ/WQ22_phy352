@@ -16,6 +16,18 @@ int main(void) {
 
     printf("%s\n", a);
     printf("%s\n", b);
-    
+
+    for (int i = 0; i <= 6; ++i) {
+        printf("a[%i] = 0x%x\n", i, &(a[i]));
+    }
+
+    for (int i = 0; i <= 6; ++i) {
+        printf("b[%i] = 0x%x\n", i, &(b[i]));
+    }
+
+    /* the addresses for the a array directly follows
+    the addresses for the b array. Thus the overflow 
+    of the b array overwrote the contents of the a array */
+
     return 0;
 }
