@@ -65,8 +65,12 @@ void ode_solver(double** x, double* t,
 
 
     for (int i = 0; i < steps-1; ++i) {
-        for (int j = 0; j < method.order; ++j) {
+
+        for (int n = 0; n < num_var; ++n) {
+            x[i+1][n] = x[i][n];
+        }
         
+        for (int j = 0; j < method.order; ++j) {
             double want[num_var];
             for (int m = 0; m < num_var; ++m) {
                 want[m] = x[i][m];
@@ -82,13 +86,12 @@ void ode_solver(double** x, double* t,
                 k[j][n] = dxdt[n](want, t[i] + method.nodes[j]*dt, dxdt_param);
                 // printf("%lf\n", k[j][n]);
             }
+            
+            double* temp2 = constant_multiply(k[j], dt * method.weights[j], num_var);
+            dot_add(x[i+1], temp2, num_var);
+            free(temp2);
         }
-        // ode_step(x+i, t+i, k, dxdt_param, dt, steps, method, num_var);
-
-        for (int j = 0; j < num_var; ++j) {
-            x[i+1][j] = x[i][j] + dt * dot_product(k[j], method.weights, method.order);
-            }
-
+        
         t[i+1] = t[i] + dt;
     }
 }
@@ -152,40 +155,48 @@ void x_destroyer(double** x, int max_time) {
 }
 
 #define MAX_TIME 50
-#define NUM_VAR 1
+#define NUM_VAR 2
 
-double dxdt(double* x_arr, double t, double* param) {
+double dx1dt(double* x_arr, double t, double* param) {
     double deriv = -param[0] * x_arr[0] / param[1];
     return deriv;
 }
 
+double dx2dt(double* x_arr, double t, double* param) {
+    double deriv = -param[2] * x_arr[1] / param[3];
+    return deriv;
+}
+
+
 int main(void) {
     double (*func[NUM_VAR]) (double*, double, double*);
-    func[0] = dxdt;
+    func[0] = dx1dt;
+    func[1] = dx2dt;
     
     double t[MAX_TIME];
     double dt = 0.1;
-    double fparam[] = {1, 3}; // dxdt = -Nx / tau
+    double fparam[] = {1, 3, 1, 6}; // dxdt = -Nx / tau
     
     double** x = x_constructor(NUM_VAR, MAX_TIME);
     x[0][0] = 100;
+    x[0][1] = 200;
     
     ButcherTableau method = get_rk_tableau();
 
     ode_solver(x, t, func, fparam, dt, MAX_TIME, method, NUM_VAR);
 
     for (int i = 0; i < MAX_TIME; ++i) {
-        printf("t: %lf \t x: %lf\n", t[i], x[i][0]);
+        printf("t: %lf \t x1: %lf \t x2: %lf\n", t[i], x[i][0], x[i][1]);
     }
     
     destroy_rk_tableau(method);
 
-    // x_destroyer(x, MAX_TIME);
+    x_destroyer(x, MAX_TIME);
 
-
+    /*
     for (int i = 0; i < MAX_TIME; ++i) {
         free(x[i]);
     }
-    free(x); 
+    free(x); */
     return 0;
 }
