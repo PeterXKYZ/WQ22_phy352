@@ -90,7 +90,7 @@ void ode_solver(double** x, double* t,
 
     for (int i = 0; i < steps-1; ++i) {
         for (int j = 0; j < method.order; ++j) {
-            
+        
             double want[num_var];
             for (int m = 0; m < num_var; ++m) {
                 want[m] = x[i][m];
@@ -104,6 +104,7 @@ void ode_solver(double** x, double* t,
 
             for (int n = 0; n < num_var; ++n) {
                 k[j][n] = dxdt[n](want, t[i] + method.nodes[j]*dt, dxdt_param);
+                // printf("%lf\n", k[j][n]);
             }
         }
         // ode_step(x+i, t+i, k, dxdt_param, dt, steps, method, num_var);
@@ -116,17 +117,50 @@ void ode_solver(double** x, double* t,
     }
 }
 
+#define MAX_TIME 50
+#define NUM_VAR 1
+
+double dxdt(double* x_arr, double t, double* param) {
+    double deriv = -param[0] * x_arr[0] / param[1];
+    return deriv;
+}
+
 int main(void) {
     double weights[] = {1};
-    double nodes[] = {1};
+    double nodes[] = {0};
     double** matrix = malloc(1 * sizeof(double*));
-    matrix[1] = malloc(1 * sizeof(double));
-    matrix[0][0] = 1;
-
-    ButcherTableau method = { 2, weights, nodes, matrix};
-
-    free(matrix[1]);
-    free(matrix);
+    matrix[0] = malloc(1 * sizeof(double));
+    matrix[0][0] = 0;
     
+    double (*func[NUM_VAR]) (double*, double, double*);
+    func[0] = dxdt;
+    
+    double t[MAX_TIME];
+    double dt = 0.1;
+    double fparam[] = {1, 3}; // dxdt = -Nx / tau
+    double** x = malloc(MAX_TIME * sizeof(double *));
+    for (int i = 0; i < MAX_TIME; ++i) {
+        x[i] = malloc(NUM_VAR * sizeof(double));
+    }
+
+    x[0][0] = 100;
+    ButcherTableau method = {1, weights, nodes, matrix};
+
+    ode_solver(x, t, func, fparam, dt, MAX_TIME, method, NUM_VAR);
+
+    for (int i = 0; i < MAX_TIME; ++i) {
+        printf("t: %lf \t x: %lf\n", t[i], x[i][0]);
+    }
+    
+
+
+    
+    free(matrix[0]);
+    free(matrix);
+    for (int i = 0; i < NUM_VAR; ++i) {
+            free(x[i]);
+    }
+    free(x);
+
     return 0;
 }
