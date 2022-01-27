@@ -136,6 +136,21 @@ void destroy_rk_tableau(ButcherTableau method) {
     free(method.matrix);
 }
 
+double** x_constructor(int num_var, int max_time) {
+    double** x = malloc(max_time * sizeof(double *));
+    for (int i = 0; i < max_time; ++i) {
+        x[i] = malloc(num_var * sizeof(double));
+    }
+    return x;
+}
+
+void x_destroyer(double** x, int max_time) {
+    for (int i = 0; i < max_time; ++i) {
+        free(x[i]);
+    }
+    free(x);
+}
+
 #define MAX_TIME 50
 #define NUM_VAR 1
 
@@ -151,11 +166,8 @@ int main(void) {
     double t[MAX_TIME];
     double dt = 0.1;
     double fparam[] = {1, 3}; // dxdt = -Nx / tau
-    double** x = malloc(MAX_TIME * sizeof(double *));
-    for (int i = 0; i < MAX_TIME; ++i) {
-        x[i] = malloc(NUM_VAR * sizeof(double));
-    }
-
+    
+    double** x = x_constructor(NUM_VAR, MAX_TIME);
     x[0][0] = 100;
     
     ButcherTableau method = get_rk_tableau();
@@ -168,10 +180,12 @@ int main(void) {
     
     destroy_rk_tableau(method);
 
-    for (int i = 0; i < NUM_VAR; ++i) {
-            free(x[i]);
-    }
-    free(x);
+    // x_destroyer(x, MAX_TIME);
 
+
+    for (int i = 0; i < MAX_TIME; ++i) {
+        free(x[i]);
+    }
+    free(x); 
     return 0;
 }
