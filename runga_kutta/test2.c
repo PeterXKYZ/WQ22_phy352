@@ -79,7 +79,6 @@ void ode_solver(double** x, double* t,
                 double* dxdt_param, double dt, int steps, 
                 ButcherTableau method, int num_var) {
     
-
     double k[method.order][num_var];
     for (int i = 0; i < method.order; ++i) {
         for (int j = 0; j < num_var; ++j) {
@@ -96,7 +95,7 @@ void ode_solver(double** x, double* t,
                 want[m] = x[i][m];
             }
 
-            for (int l = 0; l < method.order; ++l) {
+            for (int l = 0; l < j; ++l) {
                 double* temp1 = constant_multiply(k[l], dt * method.matrix[j][l], num_var); 
                 dot_add(want, temp1, num_var);
                 free(temp1);
@@ -126,11 +125,26 @@ double dxdt(double* x_arr, double t, double* param) {
 }
 
 int main(void) {
-    double weights[] = {1};
-    double nodes[] = {0};
-    double** matrix = malloc(1 * sizeof(double*));
-    matrix[0] = malloc(1 * sizeof(double));
-    matrix[0][0] = 0;
+    int order = 4;
+    double weights[] = {(double)1/6, (double)1/3, (double)1/3, (double)1/6};
+    double nodes[] = {0, 0.5, 0.5, 1};
+    double** matrix = malloc(4 * sizeof(double*));
+    
+    double matrix_val[4][4] = {{0, 0, 0, 0}, 
+                            {0.5, 0, 0, 0}, 
+                            {0, 0.5, 0, 0}, 
+                            {0, 0, 1, 0}};
+
+    for (int i = 0; i < order; ++i) {
+        matrix[i] = malloc(4 * sizeof(double));
+        for (int j = 0; j < order; ++j) {
+            matrix[i][j] = matrix_val[i][j];
+        } 
+    }
+
+    //printf("%lf\n", matrix_val[1][0]);
+    //printf("%lf\n", matrix[1][0]);
+    printf("%lf\n", weights[0]);
     
     double (*func[NUM_VAR]) (double*, double, double*);
     func[0] = dxdt;
@@ -144,7 +158,7 @@ int main(void) {
     }
 
     x[0][0] = 100;
-    ButcherTableau method = {1, weights, nodes, matrix};
+    ButcherTableau method = {order, weights, nodes, matrix};
 
     ode_solver(x, t, func, fparam, dt, MAX_TIME, method, NUM_VAR);
 
@@ -155,7 +169,9 @@ int main(void) {
 
 
     
-    free(matrix[0]);
+    for (int i = 0; i < order; ++i) {
+        free(matrix[i]);
+    }
     free(matrix);
     for (int i = 0; i < NUM_VAR; ++i) {
             free(x[i]);
