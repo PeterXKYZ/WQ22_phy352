@@ -9,15 +9,7 @@ typedef struct{
     double** matrix;
 } ButcherTableau;
 
-/*
-typedef struct{
-    int num_var;
-    double A;
-    double B;
-} MultiComponent;
-*/
-
-double dot_product(double* x, double* y, size_t length) {
+static double dot_product(double* x, double* y, size_t length) {
     double total = 0;
     for (int i = 0; i < length; ++i) {
         total += x[i] * y[i];
@@ -25,7 +17,7 @@ double dot_product(double* x, double* y, size_t length) {
     return total;
 }
 
-double* constant_add(const double* a, double s, size_t length) {
+static double* constant_add(const double* a, double s, size_t length) {
     double* dst = calloc(length, sizeof(double));
     if (!dst) {
         fprintf(stderr, "Can't allocate");
@@ -39,7 +31,7 @@ double* constant_add(const double* a, double s, size_t length) {
     return dst;
 }
 
-double* constant_multiply(const double* a, double s, size_t length) {
+static double* constant_multiply(const double* a, double s, size_t length) {
     double* dst = calloc(length, sizeof(double));
     if (!dst) {
         fprintf(stderr, "Can't allocate");
@@ -53,26 +45,11 @@ double* constant_multiply(const double* a, double s, size_t length) {
     return dst;
 }
 
-void dot_add(double* a, const double* b, size_t length) {
+static void dot_add(double* a, const double* b, size_t length) {
     for (int i = 0; i < length; ++i) {
         a[i] += b[i];
     }
 }
-
-
-
-// k = array[order][num_var]
-/*
-void ode_step(double** x, double* t, double** k,
-                double* dxdt_param, double dt, int steps,
-                ButcherTableau method, size_t num_var) 
-{
-    for (int j = 0; j < num_var; ++j) {
-        *(*(x+1)+j) = *(*x+j) + dt * dot_product(k[j], method.weights, method.order);
-    }
-    *(t + 1) = *t + dt;
-}
-*/
 
 void ode_solver(double** x, double* t, 
                 double (**dxdt) (double* x, double, double*),
@@ -116,6 +93,49 @@ void ode_solver(double** x, double* t,
     }
 }
 
+ButcherTableau get_rk_tableau(void) {
+    int order = 4;
+
+    double weights_val[] = {(double)1/6, (double)1/3, (double)1/3, (double)1/6};
+    double nodes_val[] = {0, 0.5, 0.5, 1};
+    double matrix_val[4][4] = {{0, 0, 0, 0}, 
+                            {0.5, 0, 0, 0}, 
+                            {0, 0.5, 0, 0}, 
+                            {0, 0, 1, 0}};
+
+    double** matrix = malloc(4 * sizeof(double*));
+    if (!matrix) {
+        exit(1);
+    }
+    double* weights = malloc(4 * sizeof(double));
+    double* nodes = malloc(4 * sizeof(double));
+
+    for (int i = 0; i < order; ++i) {
+        matrix[i] = malloc(4 * sizeof(double));
+        if (!matrix[i]) {
+            exit(1);
+        }
+        nodes[i] = nodes_val[i];
+        weights[i] = weights_val[i];
+
+        for (int j = 0; j < order; ++j) {
+            matrix[i][j] = matrix_val[i][j];
+        } 
+    }
+
+    ButcherTableau method = {order, weights, nodes, matrix};
+    return method;
+}
+
+void destroy_rk_tableau(ButcherTableau method) {
+    for (int i = 0; i < method.order; ++i) {
+        free(method.matrix[i]);
+    }
+    free(method.nodes);
+    free(method.weights);
+    free(method.matrix);
+}
+
 #define MAX_TIME 50
 #define NUM_VAR 1
 
@@ -125,27 +145,6 @@ double dxdt(double* x_arr, double t, double* param) {
 }
 
 int main(void) {
-    int order = 4;
-    double weights[] = {(double)1/6, (double)1/3, (double)1/3, (double)1/6};
-    double nodes[] = {0, 0.5, 0.5, 1};
-    double** matrix = malloc(4 * sizeof(double*));
-    
-    double matrix_val[4][4] = {{0, 0, 0, 0}, 
-                            {0.5, 0, 0, 0}, 
-                            {0, 0.5, 0, 0}, 
-                            {0, 0, 1, 0}};
-
-    for (int i = 0; i < order; ++i) {
-        matrix[i] = malloc(4 * sizeof(double));
-        for (int j = 0; j < order; ++j) {
-            matrix[i][j] = matrix_val[i][j];
-        } 
-    }
-
-    //printf("%lf\n", matrix_val[1][0]);
-    //printf("%lf\n", matrix[1][0]);
-    printf("%lf\n", weights[0]);
-    
     double (*func[NUM_VAR]) (double*, double, double*);
     func[0] = dxdt;
     
@@ -158,7 +157,8 @@ int main(void) {
     }
 
     x[0][0] = 100;
-    ButcherTableau method = {order, weights, nodes, matrix};
+    
+    ButcherTableau method = get_rk_tableau();
 
     ode_solver(x, t, func, fparam, dt, MAX_TIME, method, NUM_VAR);
 
@@ -166,13 +166,8 @@ int main(void) {
         printf("t: %lf \t x: %lf\n", t[i], x[i][0]);
     }
     
+    destroy_rk_tableau(method);
 
-
-    
-    for (int i = 0; i < order; ++i) {
-        free(matrix[i]);
-    }
-    free(matrix);
     for (int i = 0; i < NUM_VAR; ++i) {
             free(x[i]);
     }
