@@ -108,33 +108,34 @@ ButcherTableau rk_method_constructor(char* name) {
     if (strcmp(name, "euler") == 0) {
         order = 1;
 
-        double weights_val[] = {1};
-        double* weights_ptr = weights_val;
+        double weights_val[1] = {1};
+        weights_ptr = weights_val;
 
-        double nodes_val[] = {0};
-        double* nodes = nodes_val;
+        double nodes_val[1] = {0};
+        nodes_ptr = nodes_val;
 
-        double matrix_val[] = {0};
-        double* matrix_ptr = matrix_val;
+        double matrix_val[1] = {0};
+        matrix_ptr = matrix_val;
     }
     else if (strcmp(name, "mid_point") == 0) {
         order = 2;
 
-        double weights_val[] = {0, 1};
-        double* weights_ptr = weights_val;
+        double weights_val[2] = {0, 1};
+        weights_ptr = weights_val;
 
-        double nodes_val[] = {0, 0.5};
-        double* nodes = nodes_val;
+        double nodes_val[2] = {0, 0.5};
+        nodes_ptr = nodes_val;
 
-        double matrix_val[] = {0, 0, 
+        double matrix_val[4] = {0, 0, 
                                0.5, 0};
-        double* matrix_ptr = matrix_val;
+        matrix_ptr = matrix_val;
     }
     else {
         fprintf(stderr, "Not a valid method!");
         exit(1);
     }
 
+    
     ButcherTableau method = constructor_helper(order, weights_ptr, nodes_ptr, matrix_ptr); 
     return method;
 }
@@ -309,7 +310,7 @@ int main(void) {
     double** x = x_constructor(NUM_VAR, MAX_TIME, x_init);
     
     ButcherTableau method = rk_method_constructor("mid_point");
-    printf("%lf", method.weights[0]);
+    printf("%lf\n", method.weights[0]);
 
     ode_solver(x, t, func, fparam, dt, MAX_TIME, method, NUM_VAR);
 
