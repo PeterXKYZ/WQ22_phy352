@@ -1,6 +1,8 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
 typedef struct{
     int order;
@@ -9,22 +11,7 @@ typedef struct{
     double** matrix;
 } ButcherTableau;
 
-
-static double* constant_add(const double* a, double s, size_t length) {
-    double* dst = calloc(length, sizeof(double));
-    if (!dst) {
-        fprintf(stderr, "Can't allocate");
-        exit(1);
-    }
-
-    for (int i = 0; i < length; ++i) {
-        dst[i] = a[i] + s;
-    }
-
-    return dst;
-}
-
-static double* constant_multiply(const double* a, double s, size_t length) {
+static double* constant_multiply(const double* a, double s, int length) {
     double* dst = calloc(length, sizeof(double));
     if (!dst) {
         fprintf(stderr, "Can't allocate");
@@ -38,7 +25,7 @@ static double* constant_multiply(const double* a, double s, size_t length) {
     return dst;
 }
 
-static void dot_add(double* a, const double* b, size_t length) {
+static void dot_add(double* a, const double* b, int length) {
     for (int i = 0; i < length; ++i) {
         a[i] += b[i];
     }
@@ -50,12 +37,6 @@ void ode_solver(double** x, double* t,
                 ButcherTableau method, int num_var) {
     
     double k[method.order][num_var];
-    for (int i = 0; i < method.order; ++i) {
-        for (int j = 0; j < num_var; ++j) {
-            k[i][j] = 0;
-        }
-    }
-
 
     for (int i = 0; i < steps-1; ++i) {
 
@@ -77,7 +58,6 @@ void ode_solver(double** x, double* t,
 
             for (int n = 0; n < num_var; ++n) {
                 k[j][n] = dxdt[n](want, t[i] + method.nodes[j]*dt, dxdt_param);
-                // printf("%lf\n", k[j][n]);
             }
             
             double* temp2 = constant_multiply(k[j], dt * method.weights[j], num_var);
@@ -89,26 +69,97 @@ void ode_solver(double** x, double* t,
     }
 }
 
-ButcherTableau get_rk_tableau(void) {
-    int order = 4;
+ButcherTableau constructor_helper(int order, double* weights_ptr, double* nodes_ptr, double* matrix_ptr) {
+    double** matrix = malloc(order * sizeof(double*));
+    double* weights = malloc(order * sizeof(double));
+    double* nodes = malloc(order * sizeof(double));
 
-    double weights_val[] = {(double)1/6, (double)1/3, (double)1/3, (double)1/6};
-    double nodes_val[] = {0, 0.5, 0.5, 1};
-    double matrix_val[4][4] = {{0, 0, 0, 0}, 
-                            {0.5, 0, 0, 0}, 
-                            {0, 0.5, 0, 0}, 
-                            {0, 0, 1, 0}};
-
-    double** matrix = malloc(4 * sizeof(double*));
-    if (!matrix) {
+    if (!matrix || !weights || !nodes) {
+        fprintf(stderr, "Out of Memory!");
         exit(1);
     }
-    double* weights = malloc(4 * sizeof(double));
-    double* nodes = malloc(4 * sizeof(double));
+
+    int k = 0;
+    for (int i = 0; i < order; ++i) {
+        matrix[i] = malloc(order * sizeof(double));
+        if (!matrix[i]) {
+            fprintf(stderr, "Out of Memory!");
+            exit(1);
+        }
+        nodes[i] = nodes_ptr[i];
+        weights[i] = weights_ptr[i];
+
+        for (int j = 0; j < order; ++j) {
+            matrix[i][j] = matrix_ptr[k];
+            ++k;
+        } 
+    }
+
+    ButcherTableau method = {order, weights, nodes, matrix};
+    return method;
+}
+
+ButcherTableau rk_method_constructor(char* name) {
+    int order;
+    double* weights_ptr;
+    double* nodes_ptr;
+    double* matrix_ptr;
+
+    if (strcmp(name, "euler") == 0) {
+        order = 1;
+
+        double weights_val[] = {1};
+        double* weights_ptr = weights_val;
+
+        double nodes_val[] = {0};
+        double* nodes = nodes_val;
+
+        double matrix_val[] = {0};
+        double* matrix_ptr = matrix_val;
+    }
+    else if (strcmp(name, "mid_point") == 0) {
+        order = 2;
+
+        double weights_val[] = {0, 1};
+        double* weights_ptr = weights_val;
+
+        double nodes_val[] = {0, 0.5};
+        double* nodes = nodes_val;
+
+        double matrix_val[] = {0, 0, 
+                               0.5, 0};
+        double* matrix_ptr = matrix_val;
+    }
+    else {
+        fprintf(stderr, "Not a valid method!");
+        exit(1);
+    }
+
+    ButcherTableau method = constructor_helper(order, weights_ptr, nodes_ptr, matrix_ptr); 
+    return method;
+}
+
+
+
+ButcherTableau euler_rk01_constructor(void) {
+    int order = 1;
+    double weights_val[2] = {1};
+    double nodes_val[2] = {0};
+    double matrix_val[2][2] = {{0}};
+    
+    double** matrix = malloc(order * sizeof(double*));
+    double* weights = malloc(order * sizeof(double));
+    double* nodes = malloc(order * sizeof(double));
+
+    if (!matrix || !weights || !nodes) {
+        fprintf(stderr, "Out of Memory!");
+        exit(1);
+    }
 
     for (int i = 0; i < order; ++i) {
-        matrix[i] = malloc(4 * sizeof(double));
+        matrix[i] = malloc(order * sizeof(double));
         if (!matrix[i]) {
+            fprintf(stderr, "Out of Memory!");
             exit(1);
         }
         nodes[i] = nodes_val[i];
@@ -123,7 +174,76 @@ ButcherTableau get_rk_tableau(void) {
     return method;
 }
 
-void destroy_rk_tableau(ButcherTableau method) {
+ButcherTableau midpoint_rk02_constructor(void) {
+    int order = 2;
+    double weights_val[2] = {0, 1};
+    double nodes_val[2] = {0, 0.5};
+    double matrix_val[2][2] = {{0, 0}, {0.5, 0}};
+    
+    double** matrix = malloc(order * sizeof(double*));
+    double* weights = malloc(order * sizeof(double));
+    double* nodes = malloc(order * sizeof(double));
+
+    if (!matrix || !weights || !nodes) {
+        fprintf(stderr, "Out of Memory!");
+        exit(1);
+    }
+
+    for (int i = 0; i < order; ++i) {
+        matrix[i] = malloc(order * sizeof(double));
+        if (!matrix[i]) {
+            fprintf(stderr, "Out of Memory!");
+            exit(1);
+        }
+        nodes[i] = nodes_val[i];
+        weights[i] = weights_val[i];
+
+        for (int j = 0; j < order; ++j) {
+            matrix[i][j] = matrix_val[i][j];
+        } 
+    }
+
+    ButcherTableau method = {order, weights, nodes, matrix};
+    return method;
+}
+
+ButcherTableau classic_rk04_constructor(void) {
+    int order = 4;
+    double weights_val[4] = {(double)1/6, (double)1/3, (double)1/3, (double)1/6};
+    double nodes_val[4] = {0, 0.5, 0.5, 1};
+    double matrix_val[4][4] = {{0, 0, 0, 0}, 
+                            {0.5, 0, 0, 0}, 
+                            {0, 0.5, 0, 0}, 
+                            {0, 0, 1, 0}};
+    
+    double** matrix = malloc(order * sizeof(double*));
+    double* weights = malloc(order * sizeof(double));
+    double* nodes = malloc(order * sizeof(double));
+
+    if (!matrix || !weights || !nodes) {
+        fprintf(stderr, "Out of Memory!");
+        exit(1);
+    }
+
+    for (int i = 0; i < order; ++i) {
+        matrix[i] = malloc(order * sizeof(double));
+        if (!matrix[i]) {
+            fprintf(stderr, "Out of Memory!");
+            exit(1);
+        }
+        nodes[i] = nodes_val[i];
+        weights[i] = weights_val[i];
+
+        for (int j = 0; j < order; ++j) {
+            matrix[i][j] = matrix_val[i][j];
+        } 
+    }
+
+    ButcherTableau method = {order, weights, nodes, matrix};
+    return method;
+}
+
+void tableau_destroyer(ButcherTableau method) {
     for (int i = 0; i < method.order; ++i) {
         free(method.matrix[i]);
     }
@@ -132,11 +252,26 @@ void destroy_rk_tableau(ButcherTableau method) {
     free(method.matrix);
 }
 
-double** x_constructor(int num_var, int max_time) {
+double* t_constructor(int max_time, double init) {
+    double* t = malloc(max_time * sizeof(double));
+    t[0] = init;
+    return t;
+}
+
+void t_destroyer(double* t) {
+    free(t);
+}
+
+double** x_constructor(int num_var, int max_time, double* init) {
     double** x = malloc(max_time * sizeof(double *));
     for (int i = 0; i < max_time; ++i) {
         x[i] = malloc(num_var * sizeof(double));
     }
+
+    for (int j = 0; j < num_var; ++j) {
+        x[0][j] = init[j];        
+    }
+
     return x;
 }
 
@@ -147,7 +282,7 @@ void x_destroyer(double** x, int max_time) {
     free(x);
 }
 
-#define MAX_TIME 50
+#define MAX_TIME 51
 #define NUM_VAR 2
 
 double dx1dt(double* x_arr, double t, double* param) {
@@ -166,30 +301,26 @@ int main(void) {
     func[0] = dx1dt;
     func[1] = dx2dt;
     
-    double t[MAX_TIME];
     double dt = 0.1;
     double fparam[] = {1, 3, 1, 6}; // dxdt = -Nx / tau
+    double x_init[] = {100, 200};
     
-    double** x = x_constructor(NUM_VAR, MAX_TIME);
-    x[0][0] = 100;
-    x[0][1] = 200;
+    double* t = t_constructor(MAX_TIME, 0);
+    double** x = x_constructor(NUM_VAR, MAX_TIME, x_init);
     
-    ButcherTableau method = get_rk_tableau();
+    ButcherTableau method = rk_method_constructor("mid_point");
+    printf("%lf", method.weights[0]);
 
     ode_solver(x, t, func, fparam, dt, MAX_TIME, method, NUM_VAR);
 
     for (int i = 0; i < MAX_TIME; ++i) {
         printf("t: %lf \t x1: %lf \t x2: %lf\n", t[i], x[i][0], x[i][1]);
     }
-    
-    destroy_rk_tableau(method);
 
+    tableau_destroyer(method);
+
+    t_destroyer(t);
     x_destroyer(x, MAX_TIME);
 
-    /*
-    for (int i = 0; i < MAX_TIME; ++i) {
-        free(x[i]);
-    }
-    free(x); */
     return 0;
 }
