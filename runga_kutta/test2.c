@@ -130,14 +130,27 @@ ButcherTableau rk_method_constructor(char* name) {
                                0.5, 0};
         matrix_ptr = matrix_val;
     }
+    else if (strcmp(name, "classic_rk") == 0) {
+        order = 4;
+
+        double weights_val[4] = {(double)1/6, (double)1/3, (double)1/3, (double)1/6};
+        weights_ptr = weights_val;
+
+        double nodes_val[4] = {0, 0.5, 0.5, 1};
+        nodes_ptr = nodes_val;
+
+        double matrix_val[16] = {0, 0, 0, 0,
+                                 0.5, 0, 0, 0,
+                                 0, 0.5, 0, 0,
+                                 0, 0, 1, 0};
+        matrix_ptr = matrix_val;
+    }
     else {
         fprintf(stderr, "Not a valid method!");
         exit(1);
     }
-
     
-    ButcherTableau method = constructor_helper(order, weights_ptr, nodes_ptr, matrix_ptr); 
-    return method;
+    return constructor_helper(order, weights_ptr, nodes_ptr, matrix_ptr); 
 }
 
 
@@ -309,8 +322,7 @@ int main(void) {
     double* t = t_constructor(MAX_TIME, 0);
     double** x = x_constructor(NUM_VAR, MAX_TIME, x_init);
     
-    ButcherTableau method = rk_method_constructor("mid_point");
-    printf("%lf\n", method.weights[0]);
+    ButcherTableau method = rk_method_constructor("classic_rk");
 
     ode_solver(x, t, func, fparam, dt, MAX_TIME, method, NUM_VAR);
 
