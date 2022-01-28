@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <constructors.h>
 #include <rk_gen.h>

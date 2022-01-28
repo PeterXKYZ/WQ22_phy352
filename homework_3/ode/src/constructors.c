@@ -1,5 +1,7 @@
-#include <constructors.h>
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <constructors.h>
 
 static ButcherTableau constructor_helper(int order, double* weights_ptr, double* nodes_ptr, double* matrix_ptr) {
     double** matrix = malloc(order * sizeof(double*));
