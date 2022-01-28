@@ -3,8 +3,7 @@
 
 void rk02(double** x, double* t, 
             double (**dxdt) (double* x, double, double*),
-            double* dxdt_param, double dt, int steps, 
-            ButcherTableau method, int num_var) {
+            double* dxdt_param, double dt, int steps, int num_var) {
 
     ButcherTableau method = rk_method_constructor("mid_point");
 
