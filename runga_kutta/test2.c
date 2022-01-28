@@ -9,13 +9,6 @@ typedef struct{
     double** matrix;
 } ButcherTableau;
 
-static double dot_product(double* x, double* y, size_t length) {
-    double total = 0;
-    for (int i = 0; i < length; ++i) {
-        total += x[i] * y[i];
-    }
-    return total;
-}
 
 static double* constant_add(const double* a, double s, size_t length) {
     double* dst = calloc(length, sizeof(double));
