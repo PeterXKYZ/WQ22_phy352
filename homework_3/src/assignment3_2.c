@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     double init_vx = init_v * cos(ang_rad);
     double init_vy = init_v * sin(ang_rad);
 
-    double dt = 1;
+    double dt = .5;
 
     // fparam[0] = g (gravitational constant) = 9.81 m/s
     // fparam[1] = m (mass) = 1 kg
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
 
     rkO4(x, t, func, fparam, dt, MAX_TIME, NUM_VAR);
     
-    for (int i = 0; i < MAX_TIME; ++i) {
+    for (int i = 0; i < MAX_TIME && x[i][2] > -0.00001; ++i) {
         printf("%lf\t%lf\n", x[i][0], x[i][2]);
     }
 

@@ -1,1 +1,1 @@
-plot 'data/assignment3_2_data/assignment3_2_30.dat' using 1:2
+plot 'data/assignment3_2_data/assignment3_2_35.dat' using 1:2, 'data/assignment3_2_data/assignment3_2_45.dat' using 1:2, 'data/assignment3_2_data/assignment3_2_46.dat' using 1:2, 'data/assignment3_2_data/assignment3_2_max.dat' using 1:2
