@@ -1,17 +1,23 @@
 #include <math.h>
-#include <constructors.h>
 #include <stdlib.h>
+#include <stdio.h>
+
+#include <constructors.h>
+#include <assignment3_2_physics.h>
+#include <rk_deriv.h>
 
 #define MAX_TIME 20
 #define NUM_VAR 4
 
 
 int main(int argc, char* argv[]) {
+    // angle will be determined by argument passed to main
     double pi = 4 * atan(1);
-    double ang_deg = strtod(argv[0], NULL);
+    double ang_deg = strtod(argv[1], NULL);
     double ang_rad = ang_deg * pi / 180;
     
-    double init_v = 700 // initial_velocity 700 m/s 
+    // initial_velocity of 700 m/s
+    double init_v = 700; 
     double init_vx = init_v * cos(ang_rad);
     double init_vy = init_v * sin(ang_rad);
 
@@ -31,8 +37,20 @@ int main(int argc, char* argv[]) {
     // x[3] = dy/dt = vy
     double x_init[] = {0, init_vx, 0, init_vy};
 
+    double (*func[NUM_VAR]) (double*, double, double*);
+    func[0] = dxdt;
+    func[1] = dvxdt;
+    func[2] = dydt;
+    func[3] = dvydt;
+
     double* t = t_constructor(MAX_TIME, 0);
     double** x = x_constructor(NUM_VAR, MAX_TIME, x_init);
+
+    rkO4(x, t, func, fparam, dt, MAX_TIME, NUM_VAR);
+    
+    for (int i = 0; i < MAX_TIME; ++i) {
+        printf("x: %lf\ty: %lf\n", x[i][0], x[i][2]);
+    }
 
     t_destroyer(t);
     x_destroyer(x, MAX_TIME);
