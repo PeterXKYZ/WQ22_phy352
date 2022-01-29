@@ -12,6 +12,11 @@
 
 int main(int argc, char* argv[]) {
     // angle will be determined by argument passed to main
+    if (argc != 2) {
+        fprintf(stderr, "Format: %s <angle in degrees>", argv[0]);
+        exit(1);
+    }
+    
     double pi = 4 * atan(1);
     double ang_deg = strtod(argv[1], NULL);
     double ang_rad = ang_deg * pi / 180;
