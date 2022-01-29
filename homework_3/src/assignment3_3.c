@@ -6,12 +6,12 @@
 #include <assignment3_3_physics.h>
 #include <rk_deriv.h>
 
-#define MAX_TIME 50
+#define MAX_TIME 100
 #define NUM_VAR 2
 
 int main(void) {
     double pi = 4 * atan(1);
-    double dt = .1;
+    double dt = .05;
 
     // omega = -g * theta / l
     // param[0] = g
@@ -42,12 +42,12 @@ int main(void) {
     rkO4(x_rkO4, t, func, param, dt, MAX_TIME, NUM_VAR);
 
     // files?
-    FILE* angle_dat = fopen("../data/assignment3_3_data/assignment3_3_angle.dat", "w");
-    FILE* energy_dat = fopen("../data/assignment3_3_data/assignment3_3_energy.dat", "w");
-    FILE* error_dat = fopen("../data/assignment3_3_data/assignment3_3_error.dat", "w");
+    FILE* angle_dat = fopen("data/assignment3_3_data/assignment3_3_angle.dat", "w");
+    FILE* energy_dat = fopen("data/assignment3_3_data/assignment3_3_energy.dat", "w");
+    FILE* error_dat = fopen("data/assignment3_3_data/assignment3_3_error.dat", "w");
     
     if (!angle_dat || !energy_dat || !error_dat) {
-        fprintf(stderr, "Can't write to location!");
+        fprintf(stderr, "Can't write to location!\n");
         exit(1);
     }
 
@@ -56,12 +56,13 @@ int main(void) {
     for (int i = 0; i < MAX_TIME; ++i) {
         solution[i] = analytic_solution(t[i], param, x_init);
 
-        fprintf(angle_dat, "t: %lf euler: %lf rkO2: %lf rkO4: %lf\n",  t[i], x_euler[i][0], x_rkO2[i][0], x_rkO4[i][0]);
+        fprintf(angle_dat, "t: %lf euler: %lf rkO2: %lf rkO4: %lf anal: %lf\n",  t[i], x_euler[i][0], x_rkO2[i][0], x_rkO4[i][0], solution[i]);
         fprintf(energy_dat, "t: %lf energy_e: %lf energy_O2: %lf energy_O4: %lf\n", 
-                compute_energy(x_euler[i], param), compute_energy(x_rkO2[i], param), compute_energy(x_rkO4[i], param));
+                t[i], compute_energy(x_euler[i], param), compute_energy(x_rkO2[i], param), compute_energy(x_rkO4[i], param));
         fprintf(error_dat, "t: %lf error_e: %lf error_O2: %lf error_O4: %lf\n",
-                abs(x_euler[i][0] - solution[i]) / solution[i], abs(x_rkO2[i][0] - solution[i]) / solution[i],
-                abs(x_rkO4[i][0] - solution[i]) / solution[i]);   
+                t[i], (x_euler[i][0] - solution[i]) / solution[i], 
+		(x_rkO2[i][0] - solution[i]) / solution[i],
+                (x_rkO4[i][0] - solution[i]) / solution[i]);   
     }
     
     fclose(angle_dat);
