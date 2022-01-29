@@ -6,7 +6,7 @@
 #include <assignment3_3_physics.h>
 #include <rk_deriv.h>
 
-#define MAX_TIME 100
+#define MAX_TIME 300
 #define NUM_VAR 2
 
 int main(void) {

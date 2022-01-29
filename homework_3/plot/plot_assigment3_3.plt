@@ -6,11 +6,11 @@ set multiplot layout 2,3 columnsfirst
 
 set xlabel 'Time (s)'
 set ylabel 'Angular Position (rad)'
-plot angle_data using 2:4 with lines title "euler method", angle_data using 2:10 with lines title "exact"
+plot angle_data using 2:4 with lines title "euler method", angle_data using 2:10 with lines title "exact" linetype 3
 
 set xlabel 'Time (s)'
 set ylabel 'Angular Position (rad)'
-plot angle_data using 2:6 with lines title "rkO2 method", angle_data using 2:8 with lines title "rkO4 method", angle_data using 2:10 with lines title "exact"
+plot angle_data using 2:6 with lines title "rkO2 method", angle_data using 2:8 with lines title "rkO4 method" lt rgb "black"
 
 set xlabel 'Time (s)'
 set ylabel 'Total Energy'
@@ -22,6 +22,10 @@ plot energy_data using 2:6 with lines title "rkO2", energy_data using 2:8 with l
 
 set xlabel 'Time (s)'
 set ylabel 'Relative Error'
-plot error_data using 2:4 with lines title "euler", error_data using 2:6 with lines title "rkO2", error_data using 2:8 with lines title "rkO4"
+plot error_data using 2:4 with lines title "euler"
+
+set xlabel 'Time (s)'
+set ylabel 'Relative Error'
+plot error_data using 2:6 with lines title "rkO2", error_data using 2:8 with lines title "rkO4"
 
 unset multiplot
