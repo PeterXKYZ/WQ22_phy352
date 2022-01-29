@@ -3,5 +3,6 @@
 
 double dtheta_dt(double* x, double t, double* param);
 double domega_dt(double* x, double t, double* param);
+double compute_energy(double* x, double* param);
 
 #endif

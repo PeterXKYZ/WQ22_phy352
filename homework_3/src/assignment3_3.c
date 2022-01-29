@@ -6,12 +6,12 @@
 #include <assignment3_3_physics.h>
 #include <rk_deriv.h>
 
-#define MAX_TIME 30
+#define MAX_TIME 50
 #define NUM_VAR 2
 
 int main(void) {
     double pi = 4 * atan(1);
-    double dt = .5;
+    double dt = .1;
 
     // omega = -g * theta / l
     // param[0] = g
@@ -41,9 +41,10 @@ int main(void) {
     t[0] = 0;
     rkO4(x_rkO4, t, func, param, dt, MAX_TIME, NUM_VAR);
 
+
     for (int i = 0; i < MAX_TIME; ++i) {
-        printf("t: %lf\teuler: %lf\trkO2: %lf\trkO4: %lf", 
-                t[i], x_euler[i][0], x_rkO2[i][0], x_rkO4[i][0]);
+        printf("t: %lf euler: %lf rkO2: %lf rkO4: %lf energy1: %lf energy2: %lf energy3: %lf\n", 
+                t[i], x_euler[i][0], x_rkO2[i][0], x_rkO4[i][0], compute_energy(x_euler[i], param), compute_energy(x_rkO2[i], param), compute_energy(x_rkO4[i], param));
     }
     
     t_destroyer(t);
