@@ -20,26 +20,26 @@ int main(int argc, char* argv[]) {
     double pi = 4 * atan(1);
     double ang_deg = strtod(argv[1], NULL);
     double ang_rad = ang_deg * pi / 180;
+
+    double dt = .5;
     
     // initial_velocity of 700 m/s
     double init_v = 700; 
     double init_vx = init_v * cos(ang_rad);
     double init_vy = init_v * sin(ang_rad);
 
-    double dt = .5;
+    // param[0] = g (gravitational constant) = 9.81 m/s
+    // param[1] = m (mass) = 1 kg
+    // param[2] = B2 (drag coefficient) = 4 x 10^-5 kg/m
+    // param[3] = a (atmospheric constant) = 6.5 x 10^-3 K/m
+    // param[4] = alpha (atmospheric exponent) = 2.5
+    // param[5] = T0 (sea level temperature) = 300 K
+    double param[] = {9.81, 1, 4E-5, 6.5E-3, 2.5, 300};
 
-    // fparam[0] = g (gravitational constant) = 9.81 m/s
-    // fparam[1] = m (mass) = 1 kg
-    // fparam[2] = B2 (drag coefficient) = 4 x 10^-5 kg/m
-    // fparam[3] = a (atmospheric constant) = 6.5 x 10^-3 K/m
-    // fparam[4] = alpha (atmospheric exponent) = 2.5
-    // fparam[5] = T0 (sea level temperature) = 300 K
-    double fparam[] = {9.81, 1, 4E-5, 6.5E-3, 2.5, 300};
-
-    // x[0] = x
-    // x[1] = dx/dt = vx
-    // x[2] = y
-    // x[3] = dy/dt = vy
+    // x[][0] = x
+    // x[][1] = dx/dt = vx
+    // x[][2] = y
+    // x[][3] = dy/dt = vy
     double x_init[] = {0, init_vx, 0, init_vy};
 
     double (*func[NUM_VAR]) (double*, double, double*);
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
     double* t = t_constructor(MAX_TIME, 0);
     double** x = x_constructor(NUM_VAR, MAX_TIME, x_init);
 
-    rkO4(x, t, func, fparam, dt, MAX_TIME, NUM_VAR);
+    rkO4(x, t, func, param, dt, MAX_TIME, NUM_VAR);
     
     for (int i = 0; i < MAX_TIME && x[i][2] > -0.00001; ++i) {
         printf("%lf\t%lf\n", x[i][0], x[i][2]);
