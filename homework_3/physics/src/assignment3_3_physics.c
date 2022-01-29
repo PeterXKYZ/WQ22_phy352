@@ -19,3 +19,10 @@ double compute_energy(double* x, double* param) {
 	double energy = 0.5 * param[1] * param[1] * (x[1] * x[1] + param[0] * x[0] * x[0] / param[1]);
 	return energy;
 }
+
+double analytic_solution(double t, double* param, double* init) {
+    double theta = init[0] * cos( sqrt(param[0] / param[1]) * t ) + 
+                   init[1] * sin( sqrt(param[0] / param[1]) * t ) * sqrt(param[1] / param[0]);
+
+    return theta;
+}

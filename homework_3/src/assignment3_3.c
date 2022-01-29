@@ -41,12 +41,33 @@ int main(void) {
     t[0] = 0;
     rkO4(x_rkO4, t, func, param, dt, MAX_TIME, NUM_VAR);
 
+    // files?
+    FILE* angle_dat = fopen("../data/assignment3_3_data/assignment3_3_angle.dat", "w");
+    FILE* energy_dat = fopen("../data/assignment3_3_data/assignment3_3_energy.dat", "w");
+    FILE* error_dat = fopen("../data/assignment3_3_data/assignment3_3_error.dat", "w");
+    
+    if (!angle_dat || !energy_dat || !error_dat) {
+        fprintf(stderr, "Can't write to location!");
+        exit(1);
+    }
 
+    double solution[MAX_TIME];
+    
     for (int i = 0; i < MAX_TIME; ++i) {
-        printf("t: %lf euler: %lf rkO2: %lf rkO4: %lf energy1: %lf energy2: %lf energy3: %lf\n", 
-                t[i], x_euler[i][0], x_rkO2[i][0], x_rkO4[i][0], compute_energy(x_euler[i], param), compute_energy(x_rkO2[i], param), compute_energy(x_rkO4[i], param));
+        solution[i] = analytic_solution(t[i], param, x_init);
+
+        fprintf(angle_dat, "t: %lf euler: %lf rkO2: %lf rkO4: %lf\n",  t[i], x_euler[i][0], x_rkO2[i][0], x_rkO4[i][0]);
+        fprintf(energy_dat, "t: %lf energy_e: %lf energy_O2: %lf energy_O4: %lf\n", 
+                compute_energy(x_euler[i], param), compute_energy(x_rkO2[i], param), compute_energy(x_rkO4[i], param));
+        fprintf(error_dat, "t: %lf error_e: %lf error_O2: %lf error_O4: %lf\n",
+                abs(x_euler[i][0] - solution[i]) / solution[i], abs(x_rkO2[i][0] - solution[i]) / solution[i],
+                abs(x_rkO4[i][0] - solution[i]) / solution[i]);   
     }
     
+    fclose(angle_dat);
+    fclose(energy_dat);
+    fclose(error_dat);
+
     t_destroyer(t);
     x_destroyer(x_euler, MAX_TIME);
     x_destroyer(x_rkO2, MAX_TIME);
