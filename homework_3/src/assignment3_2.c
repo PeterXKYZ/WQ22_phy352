@@ -6,7 +6,7 @@
 #include <assignment3_2_physics.h>
 #include <rk_deriv.h>
 
-#define MAX_TIME 20
+#define MAX_TIME 300
 #define NUM_VAR 4
 
 
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     double init_vx = init_v * cos(ang_rad);
     double init_vy = init_v * sin(ang_rad);
 
-    double dt = 0.1;
+    double dt = 1;
 
     // fparam[0] = g (gravitational constant) = 9.81 m/s
     // fparam[1] = m (mass) = 1 kg
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
     rkO4(x, t, func, fparam, dt, MAX_TIME, NUM_VAR);
     
     for (int i = 0; i < MAX_TIME; ++i) {
-        printf("x: %lf\ty: %lf\n", x[i][0], x[i][2]);
+        printf("%lf\t%lf\n", x[i][0], x[i][2]);
     }
 
     t_destroyer(t);
