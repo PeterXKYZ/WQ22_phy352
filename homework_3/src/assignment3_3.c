@@ -61,7 +61,7 @@ int main(void) {
                 t[i], compute_energy(x_euler[i], param), compute_energy(x_rkO2[i], param), compute_energy(x_rkO4[i], param));
         fprintf(error_dat, "t: %lf error_e: %lf error_O2: %lf error_O4: %lf\n",
                 t[i], (x_euler[i][0] - solution[i]) / solution[i], 
-		(x_rkO2[i][0] - solution[i]) / solution[i],
+                (x_rkO2[i][0] - solution[i]) / solution[i], 
                 (x_rkO4[i][0] - solution[i]) / solution[i]);   
     }
     
