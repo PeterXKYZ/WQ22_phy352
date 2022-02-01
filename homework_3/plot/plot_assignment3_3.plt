@@ -2,6 +2,9 @@ angle_data = "data/assignment3_3_data/assignment3_3_angle.dat"
 energy_data = "data/assignment3_3_data/assignment3_3_energy.dat"
 error_data = "data/assignment3_3_data/assignment3_3_error.dat"
 
+set terminal png size 1600,1000
+set output "png/assignment3_3.png"
+
 set multiplot layout 2,3 columnsfirst
 
 set xlabel 'Time (s)'

@@ -5,5 +5,8 @@ gcc -std=c99 -I ode/include/ -I physics/include/ src/assignment3_2.c -o bin/assi
 
 gcc -std=c99 -I ode/include/ -I physics/include/ src/assignment3_3.c -o bin/assignment3_3 -L ode/lib/ -l ode -lm physics/object/assignment3_3_physics.o
 
+gcc -std=c99 -I ode/include/ -I physics/include/ src/assignment3_4.c -o bin/assignment3_4 -L ode/lib/ -l ode -lm physics/object/assignment3_4_physics.o
+
 ./run/run_assignment3_2.sh
 ./run/run_assignment3_3.sh
+./run/run_assignment3_4.sh

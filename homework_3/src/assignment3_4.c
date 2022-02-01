@@ -1,10 +1,11 @@
 #include <assignment3_4_physics.h>
 #include <rk_deriv.h>
 #include <stdio.h>
+#include <math.h>
 
-#define MAX_TIME 751
+#define MAX_TIME 2001
 #define NUM_VAR 2
-#define OMEGA_POINTS 71
+#define OMEGA_POINTS 101
 #define Q_POINTS 41
 
 int main(void) {
@@ -14,27 +15,27 @@ int main(void) {
     func[0] = dtheta_dt;
     func[1] = domega_dt;
 
-    double dt = .2;
+    double dt = .01;
 
     // range of omega values to scan over
     double omega_arr[OMEGA_POINTS];
-    omega_arr[0] = .667;
+    omega_arr[0] = sqrt(9.81);
     for (int i = 1; i < OMEGA_POINTS-1; i += 2) {
-        omega_arr[i] = omega_arr[0] + .01*i;
-        omega_arr[i+1] = omega_arr[0] - .01*i; 
+        omega_arr[i] = omega_arr[0] + .03*i;
+        omega_arr[i+1] = omega_arr[0] - .03*i; 
     }
 
     // range of q values to scan over
     double q_arr[Q_POINTS];
     for (int i = 0; i < Q_POINTS; i++) {
-        q_arr[i] = pow(10, -1 + .05*i);
+        q_arr[i] = .1 + .2*i;
     } 
 
     // param[0] = sqrt(g/l) = Omega 
     // param[1] = q
     // param[2] = F_d
     // param[3] = Omega_d
-    double param[] = {.667, .3, .2, .667};
+    double param[] = {sqrt(9.81), 1, .2, .667};
 
     // x[0] = theta, x[1] = omega
     // the driving force will make it move
@@ -69,7 +70,7 @@ int main(void) {
     // ---------------------------scan over q----------------------------------------------
 
     FILE* data2 = fopen("data/assignment3_4_data/assignment3_4_q.dat", "w");
-    param[3] = .667;    // set Omega_d back to resonance freq
+    param[3] = sqrt(9.81);    // set Omega_d back to resonance freq
 
     for (int i = 0; i < Q_POINTS; ++i) {
         param[1] = q_arr[i];
