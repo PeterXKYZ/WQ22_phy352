@@ -56,9 +56,12 @@ int main(void) {
     for (int i = 0; i < MAX_TIME; ++i) {
         solution[i] = analytic_solution(t[i], param, x_init);
 
-        fprintf(angle_dat, "t: %lf euler: %lf rkO2: %lf rkO4: %lf anal: %lf\n",  t[i], x_euler[i][0], x_rkO2[i][0], x_rkO4[i][0], solution[i]);
+        fprintf(angle_dat, "t: %lf euler: %lf rkO2: %lf rkO4: %lf anal: %lf\n", 
+                t[i], x_euler[i][0], x_rkO2[i][0], x_rkO4[i][0], solution[i]);
+
         fprintf(energy_dat, "t: %lf energy_e: %lf energy_O2: %lf energy_O4: %lf\n", 
                 t[i], compute_energy(x_euler[i], param), compute_energy(x_rkO2[i], param), compute_energy(x_rkO4[i], param));
+                
         fprintf(error_dat, "t: %lf error_e: %lf error_O2: %lf error_O4: %lf\n",
                 t[i], (x_euler[i][0] - solution[i]) / solution[i], 
                 (x_rkO2[i][0] - solution[i]) / solution[i], 

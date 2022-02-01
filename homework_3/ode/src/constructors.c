@@ -107,21 +107,21 @@ void t_destroyer(double* t) {
 }
 
 double** x_constructor(int num_var, int max_time, double* init) {
-    double** x = malloc(max_time * sizeof(double *));
+    double** x_2D = malloc(max_time * sizeof(double *));
     for (int i = 0; i < max_time; ++i) {
-        x[i] = malloc(num_var * sizeof(double));
+        x_2D[i] = malloc(num_var * sizeof(double));
     }
 
     for (int j = 0; j < num_var; ++j) {
-        x[0][j] = init[j];        
+        x_2D[0][j] = init[j];        
     }
 
-    return x;
+    return x_2D;
 }
 
-void x_destroyer(double** x, int max_time) {
+void x_destroyer(double** x_2D, int max_time) {
     for (int i = 0; i < max_time; ++i) {
-        free(x[i]);
+        free(x_2D[i]);
     }
-    free(x);
+    free(x_2D);
 }

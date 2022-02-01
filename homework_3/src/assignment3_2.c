@@ -49,14 +49,14 @@ int main(int argc, char* argv[]) {
     func[3] = dvydt;
 
     double* t = t_constructor(MAX_TIME, 0);
-    double** x = x_constructor(NUM_VAR, MAX_TIME, x_init);
+    double** x_2D = x_constructor(NUM_VAR, MAX_TIME, x_init);
 
-    rkO4(x, t, func, param, dt, MAX_TIME, NUM_VAR);
+    rkO4(x_2D, t, func, param, dt, MAX_TIME, NUM_VAR);
     
-    for (int i = 0; i < MAX_TIME && x[i][2] > -0.00001; ++i) {
-        printf("%lf\t%lf\n", x[i][0], x[i][2]);
+    for (int i = 0; i < MAX_TIME && x_2D[i][2] > -0.00001; ++i) {
+        printf("%lf\t%lf\n", x_2D[i][0], x_2D[i][2]);
     }
 
     t_destroyer(t);
-    x_destroyer(x, MAX_TIME);
+    x_destroyer(x_2D, MAX_TIME);
 }

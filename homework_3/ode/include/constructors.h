@@ -33,7 +33,7 @@ void t_destroyer(double* t);
 double** x_constructor(int num_var, int max_time, double* init);
 
 // free all the pointers in 'x'
-void x_destroyer(double** x, int max_time);
+void x_destroyer(double** x_2D, int max_time);
 
 #endif
 

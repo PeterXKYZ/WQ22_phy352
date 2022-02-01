@@ -24,8 +24,8 @@ static void dot_add(double* a, const double* b, int length) {
     }
 }
 
-void ode_solver(double** x, double* t, 
-                double (**dxdt) (double* x, double, double*),
+void ode_solver(double** x_2D, double* t, 
+                double (**dxdt) (double* x_1D, double t, double* param),
                 double* dxdt_param, double dt, int steps, 
                 ButcherTableau method, int num_var) {
     
@@ -34,13 +34,13 @@ void ode_solver(double** x, double* t,
     for (int i = 0; i < steps-1; ++i) {
 
         for (int n = 0; n < num_var; ++n) {
-            x[i+1][n] = x[i][n];
+            x_2D[i+1][n] = x_2D[i][n];
         }
         
         for (int j = 0; j < method.order; ++j) {
             double want[num_var];
             for (int m = 0; m < num_var; ++m) {
-                want[m] = x[i][m];
+                want[m] = x_2D[i][m];
             }
 
             for (int l = 0; l < j; ++l) {
@@ -54,7 +54,7 @@ void ode_solver(double** x, double* t,
             }
             
             double* temp2 = constant_multiply(k[j], dt * method.weights[j], num_var);
-            dot_add(x[i+1], temp2, num_var);
+            dot_add(x_2D[i+1], temp2, num_var);
             free(temp2);
         }
         
