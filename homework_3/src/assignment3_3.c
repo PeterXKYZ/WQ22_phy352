@@ -77,4 +77,6 @@ int main(void) {
     x_destroyer(x_rkO2, MAX_TIME);
     x_destroyer(x_rkO4, MAX_TIME);
     return 0;
+
+	// over many periods, both rkO2 and rkO4 are very accurate to the original sine function
 } 
