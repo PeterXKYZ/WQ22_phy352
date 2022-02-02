@@ -16,6 +16,6 @@ set title "Omega = 3.132, F_d = .2, Omega_d = 3.132"
 set logscale y
 set xlabel "q"
 set ylabel "steady-state amplitude
-plot q_dat using 1:2 lt rgb "blue" title "numerical solution", .2 / (x*sqrt(9.81)) lt rgb "red" title "analytical solution"
+plot q_dat using 1:2 lt rgb "blue" title "numerical solution", .2 / (x*3.132) lt rgb "red" title "analytical solution"
 
 unset multiplot

@@ -69,8 +69,8 @@ int main(void) {
     
     // ---------------------------scan over q----------------------------------------------
 
-    FILE* data2 = fopen("data/assignment3_4_data/assignment3_4_q.dat", "w");
-    param[3] = sqrt(9.81);    // set Omega_d back to resonance freq
+    FILE* data2 = fopen("data/assignment3_4_data/assignment3_4_q.dat", "w");   
+	param[3] = sqrt(9.81);  // set Omega_d back to resonant frequency
 
     for (int i = 0; i < Q_POINTS; ++i) {
         param[1] = q_arr[i];
