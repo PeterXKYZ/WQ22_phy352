@@ -36,7 +36,8 @@ int main(int argc, char** argv) {
     // the columns are constant time
     // the rows are constant space
     for (int i = 0; i < MAX_X; ++i) {
-        for (int n = 0; n < MAX_T; ++n) {
+        fprintf(stdout, "%lf ", i*dx);
+	for (int n = 0; n < MAX_T; ++n) {
             if (n == MAX_T - 1) {
                 fprintf(stdout, "%lf\n", y_2D[n][i]);    
             }
