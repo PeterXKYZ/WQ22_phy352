@@ -9,7 +9,6 @@
 
 const double c = 300;
 const double dx = .01;
-const double dt = (double) (dx / c);
 const double r = 1;
 
 int main(int argc, char** argv) {
@@ -18,11 +17,13 @@ int main(int argc, char** argv) {
         fprintf(stderr, "where m = multiples of k\n");
         exit(1);
     }
+	double dt = (double) (dx / c);
+	double pi = 4 * atan(1);
 
     // for a standing wave, k = m * pi / L
     // where m = 1,2,3... and L = length of string
     double k_multiplier = strtod(argv[1], NULL);
-    double k = k_multiplier * M_PI / (dx * (MAX_X - 1));
+    double k = k_multiplier * pi / (dx * (MAX_X - 1));
 
     // make the 2D array
     double** y_2D = arr_2D_constructor(MAX_T, MAX_X);
