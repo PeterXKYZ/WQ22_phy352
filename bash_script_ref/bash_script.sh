@@ -278,3 +278,5 @@ ls | sed -e 's/txt/docx/g' -e '/new/d' -e '/std/a\nice'
 # then it will delete the lines with 'new'
 # then it will append 'nice' in the line after lines with 'std'
   
+# FLOATING POINT
+# bc is a binary calculator

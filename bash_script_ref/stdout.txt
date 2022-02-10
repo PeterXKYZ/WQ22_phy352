@@ -1,10 +1,10 @@
 total 29
 drwxr-xr-x 1 ghast 197609    0 Feb  9 22:34 .
 drwxr-xr-x 1 ghast 197609    0 Feb  9 16:19 ..
--rwxr-xr-x 1 ghast 197609 6246 Feb  9 22:35 bash_script.sh
+-rwxr-xr-x 1 ghast 197609 6468 Feb 10 11:10 bash_script.sh
 -rw-r--r-- 1 ghast 197609 1818 Feb  9 16:27 new-1.txt
 -rw-r--r-- 1 ghast 197609   50 Feb  9 16:55 new-2.txt
 -rw-r--r-- 1 ghast 197609  847 Feb  9 21:52 new-3.txt
 -rw-r--r-- 1 ghast 197609  242 Feb  9 22:10 sedfile.txt
--rw-r--r-- 1 ghast 197609    0 Feb  9 22:35 stderr.txt
--rw-r--r-- 1 ghast 197609    0 Feb  9 22:35 stdout.txt
+-rw-r--r-- 1 ghast 197609    0 Feb 10 11:10 stderr.txt
+-rw-r--r-- 1 ghast 197609    0 Feb 10 11:10 stdout.txt
