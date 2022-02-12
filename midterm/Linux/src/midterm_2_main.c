@@ -4,7 +4,7 @@
 #include <propagate.h>
 #include <constructors.h>
 #include <math.h>
-// #include <fftw3.h>
+#include <fftw3.h>
 
 const double c = 300;
 const double dx = .01;
