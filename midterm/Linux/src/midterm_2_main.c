@@ -9,7 +9,6 @@
 const double c = 300;
 const double dx = .01;
 const double r = 1;
-const double dt = r*dx/c;
 const int xlen = 1600;
 const int tlen = 800;
 
@@ -25,6 +24,7 @@ int main(int argc, char** argv) {
     double k = strtod(argv[1], NULL);
     double omega = k*c;
     double pi = 4 * atan(1);
+	double dt = r*dx/c;
 
     initialize_with_free_wave(y_2D, tlen, xlen, k, dx, omega, dt);
     propagate(y_2D, tlen, xlen, r);
