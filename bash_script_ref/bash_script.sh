@@ -140,7 +140,8 @@ for EL in $ELEMENTS
 done
 
 # FOR LOOP TO RENAME FILES
-# FILES=$(ls *.txt)   # interesting, it runs a command here
+# FILES=$(ls *.txt)     # interesting, it runs a command here
+# FILES=`ls *.txt`      # back ticks also works
 # NEW="new"
 # for F in $FILES
 #     do 
@@ -280,3 +281,14 @@ ls | sed -e 's/txt/docx/g' -e '/new/d' -e '/std/a\nice'
   
 # FLOATING POINT
 # bc is a binary calculator
+
+# HEAD AND TAIL
+# head -n num FILE      prints the first num lines of a file
+# tail -n num FILE      prints the last num lines of a file
+
+# SORT
+# sort -t '_' -k3 -n 
+# sort column 3 with column separators _ and using numeric order
+
+# ARRAYS
+FOOD=("banana" "chicken" "salmon")
