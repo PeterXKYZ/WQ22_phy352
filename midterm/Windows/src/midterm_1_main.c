@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
         double max_error = max_relative_err(decay_count_2D, time, param, max_time);
 
         // print the output (for now)
-        printf("time_steps: %i max_error: %E\n", max_time, max_error);
+        printf("time_steps: %i max_error: %E ", max_time, max_error);
     }
 
     tableau_destroyer(method);
