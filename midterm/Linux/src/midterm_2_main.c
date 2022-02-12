@@ -49,16 +49,16 @@ int main(int argc, char** argv) {
 	fftw_plan p = fftw_plan_dft_r2c_1d(tlen, in, out, FFTW_ESTIMATE);
     
     for (int n = 0; n < tlen; ++n) {
+        if (!(fabs(y_2D[n][5]) > .001)) {
+            continue;
+        }
         in[n] = y_2D[n][5];
     }
 
     fftw_execute(p);
 
     for (int n = 0; n < tlen; ++n) {
-        if (!(fabs(y_2D[n][5]) > .001)) {
-            continue;
-        }
-        fprintf(data, "t: %lf a: %lf f: %lf ", n*dt, y_2D[n][5], n/(2*pi*tlen*dt));
+        fprintf(data, "t: %lf a: %lf f: %lf ", n*dt, in[n][5], n/(2*pi*tlen*dt));
         fprintf(data, "re: %lf im %lf\n", out[n][0], out[n][1]);
     }
     
