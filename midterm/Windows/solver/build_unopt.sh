@@ -1,5 +1,8 @@
 #!/usr/bin/bash
 
+rm object/unopt/*
+rm lib/*
+
 for FILE in $(ls src/)
     do
         gcc -std=c99 -I include/ src/$FILE -c -o object/unopt/$(echo $FILE | sed 's/c$/o/')
