@@ -12,7 +12,7 @@ for t in $tsteps; do
         ./bin/midterm_1_main.exe $m $t yes >> ${path}combined.dat
         perf stat ./bin/midterm_1_main.exe $m $t >& ${path}temp
         ninst=`grep instru ${path}temp  | awk '{print $1}' | sed -e 's/,//g'`
-        echo instructions: $ninst >> ${path}$ombined.dat
+        echo instructions: $ninst >> ${path}combined.dat
     done   
     printf "\n" >> ${path}combined.dat 
 done
