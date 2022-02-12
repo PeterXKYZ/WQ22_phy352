@@ -7,16 +7,19 @@ path="data/midterm_1_data/unopt/"
 
 rm ${path}*
 
-for m in $method; do 
-    for t in $tsteps; do
-        ./bin/midterm_1_main.exe $m $t yes >> ${path}$m.dat
+for t in $tsteps; do 
+    for m in $method; do
+        ./bin/midterm_1_main $m $t yes >> ${path}combined.dat
         perf stat ./bin/midterm_1_main.exe $m $t >& ${path}temp
         ninst=`grep instru ${path}temp  | awk '{print $1}' | sed -e 's/,//g'`
-        echo instructions: $ninst >> ${path}${m}_perf.dat
-    done    
+        echo instructions: $ninst >> ${path}combined.dat
+    done   
+    printf "\n" >> ${path}combined.dat 
 done
 
-paste -d " " ${path}euler.dat ${path}euler_perf.dat \
-            ${path}rkO2.dat ${path}rkO2_perf.dat \
-            ${path}rkO4.dat ${path}rkO4_perf.dat > ${path}combined.dat
+rm ${path}temp
+
+# paste -d " " ${path}euler.dat ${path}euler_perf.dat \
+#            ${path}rkO2.dat ${path}rkO2_perf.dat \
+#            ${path}rkO4.dat ${path}rkO4_perf.dat > ${path}combined.dat
 
