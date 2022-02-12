@@ -1,0 +1,6 @@
+time_steps: 100 max_error: 9.998997E-01 instructions: 248203 time_steps: 100 max_error: 9.998997E-01 instructions: 291317 time_steps: 100 max_error: 9.998997E-01 instructions: 419152 
+time_steps: 500 max_error: 9.999074E-01 instructions: 515801 time_steps: 500 max_error: 9.999074E-01 instructions: 731715 time_steps: 500 max_error: 9.999074E-01 instructions: 1373153 
+time_steps: 1000 max_error: 9.999083E-01 instructions: 850416 time_steps: 1000 max_error: 9.999083E-01 instructions: 1282340 time_steps: 1000 max_error: 9.999083E-01 instructions: 2565776 
+time_steps: 5000 max_error: 9.999090E-01 instructions: 3526635 time_steps: 5000 max_error: 9.999090E-01 instructions: 5686558 time_steps: 5000 max_error: 9.999090E-01 instructions: 12105995 
+time_steps: 10000 max_error: 9.999091E-01 instructions: 7342144 time_steps: 10000 max_error: 9.999091E-01 instructions: 11662110 time_steps: 10000 max_error: 9.999091E-01 instructions: 24501703 
+time_steps: 50000 max_error: 9.999092E-01 instructions: 33634037 time_steps: 50000 max_error: 9.999092E-01 instructions: 55233788 time_steps: 50000 max_error: 9.999092E-01 instructions: 119433284 

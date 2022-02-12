@@ -1,6 +1,6 @@
-time_steps: 100 max_error: 1.442112E-02 instructions: 254188 time_steps: 100 max_error: 5.007973E-04 instructions: 301210 time_steps: 100 max_error: 2.521999E-07 instructions: 436873 
-time_steps: 500 max_error: 2.804109E-03 instructions: 545786 time_steps: 500 max_error: 1.884579E-05 instructions: 780808 time_steps: 500 max_error: 3.775273E-10 instructions: 1460471 
-time_steps: 1000 max_error: 1.397168E-03 instructions: 910402 time_steps: 1000 max_error: 4.676069E-06 instructions: 1380425 time_steps: 1000 max_error: 2.340066E-11 instructions: 2740086 
-time_steps: 5000 max_error: 2.786580E-04 instructions: 3826620 time_steps: 5000 max_error: 1.859218E-07 instructions: 6176647 time_steps: 5000 max_error: 3.893676E-14 instructions: 12976310 
-time_steps: 10000 max_error: 1.392806E-04 instructions: 7942125 time_steps: 10000 max_error: 4.644558E-08 instructions: 12642196 time_steps: 10000 max_error: 2.417930E-14 instructions: 26241952 
-time_steps: 50000 max_error: 2.784839E-05 instructions: 36633846 time_steps: 50000 max_error: 1.856691E-09 instructions: 60133885 time_steps: 50000 max_error: 4.162470E-14 instructions: 128133562 
+time_steps: 100 max_error: 1.442112E-02 instructions: 254197 time_steps: 100 max_error: 5.007973E-04 instructions: 301228 time_steps: 100 max_error: 2.521999E-07 instructions: 436890 
+time_steps: 500 max_error: 2.804109E-03 instructions: 545794 time_steps: 500 max_error: 1.884579E-05 instructions: 780826 time_steps: 500 max_error: 3.775273E-10 instructions: 1460489 
+time_steps: 1000 max_error: 1.397168E-03 instructions: 910412 time_steps: 1000 max_error: 4.676069E-06 instructions: 1380435 time_steps: 1000 max_error: 2.340066E-11 instructions: 2740097 
+time_steps: 5000 max_error: 2.786580E-04 instructions: 3826631 time_steps: 5000 max_error: 1.859218E-07 instructions: 6176655 time_steps: 5000 max_error: 3.893676E-14 instructions: 12976319 
+time_steps: 10000 max_error: 1.392806E-04 instructions: 7942137 time_steps: 10000 max_error: 4.644558E-08 instructions: 12642206 time_steps: 10000 max_error: 2.417930E-14 instructions: 26241966 
+time_steps: 50000 max_error: 2.784839E-05 instructions: 36633847 time_steps: 50000 max_error: 1.856691E-09 instructions: 60133884 time_steps: 50000 max_error: 4.162470E-14 instructions: 128133557 
