@@ -9,4 +9,4 @@ gcc -std=c99 -O2 -I physics/include/ -I solver/include/ src/midterm_1_main.c -o 
     -L solver/lib -l solver_opt -L physics/lib -l physics_opt -lm
 
 gcc -std=c99 -O2 -I physics/include/ -I solver/include/ src/midterm_2_main.c -o bin/midterm_2_main \
-    -L solver/lib -l solver_opt -L physics/lib -l physics_opt -lm
+    -L solver/lib -l solver_opt -L physics/lib -l physics_opt -lm -lfftw3
