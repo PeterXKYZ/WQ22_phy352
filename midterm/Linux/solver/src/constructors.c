@@ -35,56 +35,57 @@ static ButcherTableau constructor_helper(int order, double* weights_ptr, double*
 
 ButcherTableau rk_method_constructor(char* name) {
     int order;
-    double* weights_ptr;
-    double* nodes_ptr;
-    double* matrix_ptr;
+    // double* weights_ptr;
+    // double* nodes_ptr;
+    // double* matrix_ptr;
 
     if (strcmp(name, "euler") == 0) {
         order = 1;
 
         double weights_val[1] = {1};
-        weights_ptr = weights_val;
+        // weights_ptr = weights_val;
 
         double nodes_val[1] = {0};
-        nodes_ptr = nodes_val;
+        // nodes_ptr = nodes_val;
 
         double matrix_val[1] = {0};
-        matrix_ptr = matrix_val;
+        // matrix_ptr = matrix_val;
+        return constructor_helper(order, weights_val, nodes_val, matrix_val); 
     }
     else if (strcmp(name, "mid_point") == 0) {
         order = 2;
 
         double weights_val[2] = {0, 1};
-        weights_ptr = weights_val;
+        // weights_ptr = weights_val;
 
         double nodes_val[2] = {0, 0.5};
-        nodes_ptr = nodes_val;
+        // nodes_ptr = nodes_val;
 
         double matrix_val[4] = {0, 0, 
                                0.5, 0};
-        matrix_ptr = matrix_val;
+        // matrix_ptr = matrix_val;
+        return constructor_helper(order, weights_val, nodes_val, matrix_val);
     }
     else if (strcmp(name, "classic_rk") == 0) {
         order = 4;
 
         double weights_val[4] = {(double)1/6, (double)1/3, (double)1/3, (double)1/6};
-        weights_ptr = weights_val;
+        // weights_ptr = weights_val;
 
         double nodes_val[4] = {0, 0.5, 0.5, 1};
-        nodes_ptr = nodes_val;
+        // nodes_ptr = nodes_val;
 
         double matrix_val[16] = {0, 0, 0, 0,
                                  0.5, 0, 0, 0,
                                  0, 0.5, 0, 0,
                                  0, 0, 1, 0};
-        matrix_ptr = matrix_val;
+        // matrix_ptr = matrix_val;
+        return constructor_helper(order, weights_val, nodes_val, matrix_val);
     }
     else {
         fprintf(stderr, "Not a valid method!");
         exit(1);
     }
-    
-    return constructor_helper(order, weights_ptr, nodes_ptr, matrix_ptr); 
 }
 
 void tableau_destroyer(ButcherTableau method) {
