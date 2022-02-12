@@ -10,9 +10,9 @@ rm ${path}*
 for t in $tsteps; do 
     for m in $method; do
         ./bin/midterm_1_main $m $t yes >> ${path}combined.dat
-        perf stat ./bin/midterm_1_main.exe $m $t >& ${path}temp
-        ninst=`grep instru ${path}temp  | awk '{print $1}' | sed -e 's/,//g'`
-        echo instructions: $ninst >> ${path}combined.dat
+        perf stat ./bin/midterm_1_main $m $t >& ${path}temp
+        ninst=`awk '/instru/ {print $1}' ${path}temp | sed 's/,//g'`
+        printf "instructions: $ninst " >> ${path}combined.dat
     done   
     printf "\n" >> ${path}combined.dat 
 done
