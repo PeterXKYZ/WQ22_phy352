@@ -1,6 +1,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <stdbool.h>
+
 #include <rk_gen.h>
 #include <decay.h>
 #include <constructors.h>
@@ -8,6 +11,19 @@
 const int num_var = 2;
 
 int main(int argc, char** argv) {
+    // check command line arguments to see if 
+    // we want to find and print max error
+    bool find_max;
+    if (argc == 3) {
+        find_max = false;   
+    }
+    else if (argc == 4) {
+        find_max = true;
+    }
+    else {
+        fprintf(stderr, "Usage: %s <method> <time step> <print?>", argv[0]);
+        return 2;
+    }
     
     // argv[1] = method selector
     ButcherTableau method;
@@ -16,7 +32,7 @@ int main(int argc, char** argv) {
         method = rk_method_constructor("euler");
     }
     else if (strcmp(argv[1], "rkO2") == 0) {
-        method = rk_method_constructor("midpoint");
+        method = rk_method_constructor("mid_point");
     }
     else if (strcmp(argv[1], "rkO4") == 0) {
         method = rk_method_constructor("classic_rk");
@@ -28,12 +44,10 @@ int main(int argc, char** argv) {
 
     // argv[2] = time step
     double dt = strtod(argv[2], NULL);
-    int max_time = (int) 5 / dt;
+    int max_time = (int) ceil(5 / dt);
 
     // derivative array
-    double (*func[num_var]) (double*, double, double*);
-    func[0] = dAdt;
-    func[1] = dBdt;
+    double (*func[]) (double*, double, double*) = {dAdt, dBdt};
 
     // decay array
     double** decay_count_2D = arr_2D_constructor(max_time, num_var);
@@ -51,12 +65,15 @@ int main(int argc, char** argv) {
     // param[0] = τ1, param[1] = τ2
     double param[] = {1, 1};
 
-    // solving time
+    // solving time!
     ode_solver(decay_count_2D, time, func, param, dt, max_time, method, num_var);
 
-    // print the output (for now)
-    for (int i = 0; i < max_time; ++i) {
-        printf("time: %lf A: %lf B: %lf\n", time[i], decay_count_2D[i][0], decay_count_2D[i][1]);
+    if (find_max) {
+        // compute the max relative error
+        double max_error = max_relative_err(decay_count_2D, time, param, max_time);
+
+        // print the output (for now)
+        printf("time_steps: %i max_error: %E\n", max_time, max_error);
     }
 
     tableau_destroyer(method);
