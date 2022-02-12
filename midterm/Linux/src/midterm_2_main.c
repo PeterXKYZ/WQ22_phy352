@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
     fftw_execute(p);
 
     for (int n = 0; n < tlen; ++n) {
-        fprintf(data, "t: %lf a: %lf f: %lf ", n*dt, in[n], n/(2*pi*tlen*dt));
+        fprintf(data, "t: %lf a: %lf f: %lf ", n*dt, in[n], n/(tlen*dt));
         fprintf(data, "re: %lf im %lf\n", out[n][0], out[n][1]);
     }
     
