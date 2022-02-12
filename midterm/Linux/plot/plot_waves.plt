@@ -12,10 +12,10 @@ plot data_k1 using 2:4 with lines title "omega=1200 rad/s" lt rgb "dark-violet",
     data_k2 using 2:4 with lines title "omega=1320 rad/s" lt rgb "sea-green"
 
 set yrange [0:350]
-set xrange [1000:2000]
-plot data_k1 using 6:8 with lines title "Re(omega)=1200 rad/s" lt rgb "dark-violet", \
-    data_k1 using 6:10 with lines title "Im(omega)=1200 rad/s" lt rgb "orange", \
-    data_k2 using 6:8 with lines title "Re(omega)=1320 rad/s" lt rgb "sea-green", \
-    data_k2 using 6:10 with lines title "Re(omega)=1320 rad/s" lt rgb "medium-blue"
+set xrange [0:100]
+plot data_k1 using 6:(abs($8)) with lines title "Re(omega)=1200 rad/s" lt rgb "dark-violet", \
+    data_k1 using 6:(abs($10)) with lines title "Im(omega)=1200 rad/s" lt rgb "orange", \
+    data_k2 using 6:(abs($8)) with lines title "Re(omega)=1320 rad/s" lt rgb "sea-green", \
+    data_k2 using 6:(abs($10)) with lines title "Re(omega)=1320 rad/s" lt rgb "medium-blue"
 
 unset multiplot
