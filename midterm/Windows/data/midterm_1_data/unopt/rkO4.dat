@@ -1,6 +1,0 @@
-time_steps: 100 max_error: 2.521999E-007
-time_steps: 500 max_error: 3.775273E-010
-time_steps: 1000 max_error: 2.340066E-011
-time_steps: 5000 max_error: 3.893676E-014
-time_steps: 10000 max_error: 2.417930E-014
-time_steps: 50000 max_error: 4.094604E-014
