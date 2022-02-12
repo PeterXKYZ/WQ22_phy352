@@ -7,13 +7,15 @@ data_k2="data/midterm_2_data/fft_4.4.dat"
 set multiplot layout 2,1
 
 set yrange [-1:1]
-plot data_k1 using 2:4 title "ω=1200 rad/s" lt rgb "dark-violet", \
-    data_k2 using 2:4 title "ω=1320 rad/s" lt rgb "sea-green"
+set xrange [0:.03]
+plot data_k1 using 2:4 with lines title "omega=1200 rad/s" lt rgb "dark-violet", \
+    data_k2 using 2:4 with lines title "omega=1320 rad/s" lt rgb "sea-green"
 
 set yrange [0:350]
-plot data_k1 using 6:8 title "Re(ω)=1200 rad/s" lt rgb "dark-violet", \
-    data_k1 using 6:10 title "Im(ω)=1200 rad/s" lt rgb "orange", \
-    data_k2 using 6:8 title "Re(ω)=1320 rad/s" lt rgb "sea-green", \
-    data_k2 using 6:10 title "Re(ω)=1320 rad/s" lt rgb "medium-blue"
+set xrange [1000:2000]
+plot data_k1 using 6:8 with lines title "Re(omega)=1200 rad/s" lt rgb "dark-violet", \
+    data_k1 using 6:10 with lines title "Im(omega)=1200 rad/s" lt rgb "orange", \
+    data_k2 using 6:8 with lines title "Re(omega)=1320 rad/s" lt rgb "sea-green", \
+    data_k2 using 6:10 with lines title "Re(omega)=1320 rad/s" lt rgb "medium-blue"
 
 unset multiplot
