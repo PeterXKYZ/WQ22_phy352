@@ -1,5 +1,5 @@
-data_k1="data/midterm_2_data/fft_4.dat"
-data_k2="data/midterm_2_data/fft_4.4.dat"
+data_k1="data/midterm_2_data/fft_k1.dat"
+data_k2="data/midterm_2_data/fft_k2.dat"
 
 # 1  2    3  4    5  6    7   8    9   10
 # t: tval a: aval f: fval re: rval im: ival
