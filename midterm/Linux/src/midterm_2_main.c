@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <beats.h>
 #include <propagate.h>
 #include <constructors.h>
@@ -22,8 +23,8 @@ int main(int argc, char** argv) {
     
     // argv[1] = k?
     double k = strtod(argv[1], NULL);
-    double omega = k*c;
     double pi = 4 * atan(1);
+	double omega = k*c*2*pi;
 	double dt = r*dx/c;
 
     initialize_with_free_wave(y_2D, tlen, xlen, k, dx, omega, dt);
@@ -48,10 +49,14 @@ int main(int argc, char** argv) {
     fftw_complex* out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * tlen);
 	fftw_plan p = fftw_plan_dft_r2c_1d(tlen, in, out, FFTW_ESTIMATE);
     
+	bool sz = true;
     for (int n = 0; n < tlen; ++n) {
-        if (!(fabs(y_2D[n][5]) > .001)) {
-            continue;
-        }
+ 	/*if (sz) {       
+		if (fabs(y_2D[n][5]) > .001) {
+            		sz = false;
+        	}
+		continue;
+	}*/
         in[n] = y_2D[n][5];
     }
 
