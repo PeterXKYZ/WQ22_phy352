@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
             continue;
         }
         fprintf(data, "t: %lf a: %lf f: %lf\n", n*dt, y_2D[n][5], n/(2*pi*tlen*dt));
-        fprint(data, "re: %lf im %lf\n", out[n][0], out[n][1]);
+        fprintf(data, "re: %lf im %lf\n", out[n][0], out[n][1]);
         in[n] = y_2D[n][5];
     }
     
