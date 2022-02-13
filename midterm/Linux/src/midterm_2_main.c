@@ -102,7 +102,7 @@ int main(void) {
     fclose(prop_k1);
     fclose(prop_k2);
     fclose(add_k12);
-    fclose(prop_k12)
+    fclose(prop_k12);
     fclose(fft_k1);
     fclose(fft_k2);
     fclose(fft_add_k12);
