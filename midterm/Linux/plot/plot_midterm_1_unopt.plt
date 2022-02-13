@@ -1,5 +1,6 @@
 decay = "data/midterm_1_data/unopt/combined.dat"
-
+set terminal png size 2400,800
+set output "graphics/decay_unopt.png"
 
 set multiplot layout 1,3
 
