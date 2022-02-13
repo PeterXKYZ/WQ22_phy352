@@ -1,6 +1,9 @@
 data_k1="data/midterm_2_data/fft_k1.dat"
 data_k2="data/midterm_2_data/fft_k2.dat"
 
+set terminal png size 1400,1000
+set output "graphics/fft_waves.png"
+
 # 1  2    3  4    5  6    7   8    9   10
 # t: tval a: aval f: fval re: rval im: ival
 

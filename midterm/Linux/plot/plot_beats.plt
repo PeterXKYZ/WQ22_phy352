@@ -1,12 +1,15 @@
 data_k12="data/midterm_2_data/fft_add_k12.dat"
+set terminal png size 1400,1000
+set output "graphics/fft_beats.png"
+
 
 # 1  2    3  4    5  6    7   8    9   10
 # t: tval a: aval f: fval re: rval im: ival
 
 set multiplot layout 2,1
 
-set yrange [-1:1]
-set xrange [0:.007]
+set yrange [-2.2:2.2]
+set xrange [0:.01]
 set xlabel "time (s)"
 set ylabel "amplitude"
 plot data_k12 using 2:4 with lines title "f=1200 + 1320 Hz" lt rgb "dark-violet"
