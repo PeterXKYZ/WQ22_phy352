@@ -12,7 +12,7 @@ set pointsize 1
 
 set title "Precision vs. Granularity (Unopt)"
 set xlabel "t steps"
-set ylabel "|relative error|" offset 5,0
+set ylabel "|relative error|" offset 2,0
 plot decay using 2:4 title "euler" lt rgb "medium-blue", \
 	decay using 8:10 title "rkO2" lt rgb "sea-green", \
 	decay using 14:16 title "rkO4" lt rgb "dark-violet"
