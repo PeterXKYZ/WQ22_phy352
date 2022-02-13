@@ -4,7 +4,7 @@ fprintf "generating images..."
 for i in {2..3}
     do 
         sed 's/QED/$i/g' plot/anim_beats_template.plt > plot/temp.plt
-        gnuplot temp.plt
+        gnuplot plot/temp.plt
 done
 
 rm plot/temp.plt
