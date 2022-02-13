@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 printf "generating images...\n"
-for i in {2..30}
+for i in {2..801}
     do 
         sed "s/QED/$i/g" plot/anim_beats_template.plt > plot/temp.plt
         gnuplot plot/temp.plt
