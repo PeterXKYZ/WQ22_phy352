@@ -11,4 +11,4 @@ rm plot/temp.plt
 rm graphics/beat.gif
 
 printf "animating...\n"
-convert -delay 5 `printf "$(ls graphics/gif_img/anim_beats_*.png)\n" | head -n 305 | sort -t '_' -k4 -n` -loop 0 graphics/beat.gif
+convert -delay 5 `printf "$(ls graphics/gif_img/anim_beats_*.png)\n" | sort -t '_' -k4 -n | head -n 305` -loop 0 graphics/beat.gif
