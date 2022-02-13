@@ -8,7 +8,10 @@ for i in {2..801}
 done
 
 rm plot/temp.plt
-rm graphics/beat.gif
+if [ -f graphics/beats.gif ]
+then
+	rm graphics/beats.gif
+fi
 
 printf "animating...\n"
-convert -delay 5 `printf "$(ls graphics/gif_img/anim_beats_*.png)\n" | sort -t '_' -k4 -n | head -n 305` -loop 0 graphics/beat.gif
+convert -delay 5 `printf "$(ls graphics/gif_img/anim_beats_*.png)\n" | sort -t '_' -k4 -n | head -n 305` -loop 0 graphics/beats.gif
