@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+rm graphics/gif_img/*
+
 printf "generating images...\n"
 for i in {2..801}
     do 
