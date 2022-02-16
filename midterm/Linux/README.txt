@@ -34,3 +34,5 @@ TECHNICAL COMMENTS:
 -The .sh scripts in physics/ should be executed in physics/
 -The .sh scripts in solver/ should be executed in solver/
 -The beats.gif in graphics/ only contains 305 pngs. Above which Quest kills the convert command. 
+-generate_gif.sh in plot/ will regenerated all 800 pngs for animation. Takes a long time.
+-generate_gif2.sh in plot/ will convert existing pngs to a .gif. 
