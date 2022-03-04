@@ -45,7 +45,6 @@ int main() {
     double chisq0;
     int status;
     int info;
-    size_t i;
 
     // tolerances
     const double xtol = 1e-8;
@@ -70,6 +69,21 @@ int main() {
     fdf.n = N;
     fdf.p = P;
     fdf.params = &d;
+
+
+    // read in the data
+    size_t i = 0;
+    double tmpt, tmpy, tmpw;
+    FILE * fh = fopen("data/assignment5_1_data/higgs.dat", "r");
+    printf("reading file %s\n", "higgs.dat");
+    while( fscanf(fh, "%lf\t%lf\t%lf\n", &tmpt, &tmpy, &tmpw  ) != EOF ){ 
+        printf( "t: %lf\ty: %lf\tw: %lf\n", tmpt, tmpy, tmpw );
+        t[i] = tmpt;
+        y[i] = tmpy;
+        weights[i] = 1./(tmpw*tmpw); //dummy value tmpw
+        i++;
+    }
+    fclose(fh);
 
     // ------------------------------------------------------------------------------
     // a Jacobian matrix and cost function
