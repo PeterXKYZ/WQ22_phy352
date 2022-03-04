@@ -42,7 +42,6 @@ callbackBG(const size_t iter, void *params,
           iter,
           gsl_vector_get(x, 0),
           gsl_vector_get(x, 1),
-          gsl_vector_get(x, 2),
           1.0 / rcond,
           gsl_blas_dnrm2(f));
 }

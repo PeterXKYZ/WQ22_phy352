@@ -1,11 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_vector.h>
+#include <gsl/gsl_blas.h>
+#include <gsl/gsl_multifit_nlinear.h>
+
 #include <utils.h>
 #include <assignment5_2.h>
 
 #define N 60    // the number of data points to fit
-#define P 3     // the number of parameters in model function
+#define P 2     // the number of parameters in model function
 
 
 int main() {
@@ -29,7 +36,7 @@ int main() {
     data d = {N, t, y};
 
     // starting values
-    double x_init[P] = { 1500.0, -50.0, 100.0};
+    double x_init[P] = {1500.0, -30.0};
     gsl_vector_view x = gsl_vector_view_array (x_init, P);
     gsl_vector_view wts = gsl_vector_view_array(weights, N);
 
@@ -98,6 +105,7 @@ int main() {
     gsl_blas_ddot(f, f, &chisq0);
 
     // solve the system with a maximum of 100 iterations
+    printf("hello\n");
     status = gsl_multifit_nlinear_driver(100, xtol, gtol, ftol,
                                         callbackBG, NULL, &info, w);
 
@@ -133,7 +141,7 @@ int main() {
 
         fprintf (stdout, "Ab     = %.5f +/- %.5f\n", FIT(0), c*ERR(0));
         fprintf (stdout, "tau    = %.5f +/- %.5f\n", FIT(1), c*ERR(1));
-        fprintf (stdout, "x0     = %.5f +/- %.5f\n", FIT(2), c*ERR(2));
+        // fprintf (stdout, "x0     = %.5f +/- %.5f\n", FIT(2), c*ERR(2));
     }
 
     fprintf (stdout, "status = %s\n", gsl_strerror (status));
