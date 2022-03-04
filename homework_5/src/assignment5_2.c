@@ -1,13 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
-#include <gsl/gsl_matrix.h>
-#include <gsl/gsl_vector.h>
-#include <gsl/gsl_blas.h>
-#include <gsl/gsl_multifit_nlinear.h>
-
 #include <utils.h>
 #include <assignment5_2.h>
 
