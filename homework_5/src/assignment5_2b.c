@@ -37,7 +37,7 @@ int main() {
 
     // starting values
     // As, sigma, mu
-    double x_init[P] = {100, 100, 1};
+    double x_init[P] = {100, 100, 10};
     gsl_vector_view x = gsl_vector_view_array (x_init, P);
     gsl_vector_view wts = gsl_vector_view_array(weights, N);
 
@@ -141,8 +141,8 @@ int main() {
         fprintf(stdout, "chisq/dof = %g\n", chisq / dof);
 
         fprintf (stdout, "As     = %.5f +/- %.5f\n", FIT(0), c*ERR(0));
-        fprintf (stdout, "sigma    = %.5f +/- %.5f\n", FIT(1), c*ERR(1));
-        fprintf (stdout, "mu    = %.5f +/- %.5f\n", FIT(2), c*ERR(2));
+        fprintf (stdout, "mu    = %.5f +/- %.5f\n", FIT(1), c*ERR(1));
+        fprintf (stdout, "sigma    = %.5f +/- %.5f\n", FIT(2), c*ERR(2));
     }
 
     fprintf (stdout, "status = %s\n", gsl_strerror (status));
