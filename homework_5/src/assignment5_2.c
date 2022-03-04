@@ -74,7 +74,7 @@ int main() {
     // read in the data
     size_t i = 0;
     double tmpt, tmpy, tmpw;
-    FILE * fh = fopen("data/assignment5_1_data/higgs.dat", "r");
+    FILE * fh = fopen("data/assignment5_2_data/higgs.dat", "r");
     printf("reading file %s\n", "higgs.dat");
     while( fscanf(fh, "%lf\t%lf\t%lf\n", &tmpt, &tmpy, &tmpw  ) != EOF ){ 
         printf( "t: %lf\ty: %lf\tw: %lf\n", tmpt, tmpy, tmpw );
