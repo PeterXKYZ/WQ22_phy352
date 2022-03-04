@@ -2,7 +2,11 @@
 
 #include <constructors.h>
 #include <rk_gen.h>
+#include <math.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 static void constant_multiply(double* dst, const double* a, double s, int length) {
     for (register size_t i = 0; length - i > 0 ; ++i) {
@@ -16,6 +20,19 @@ static void dot_add(double* a, const double* b, int length) {
     }
 }
 
+static double angle_wrap(double ang) {
+    if (ang - M_PI > 0) {
+        return ang - 2*M_PI; 
+    }
+    else if (ang + M_PI < 0) {
+        return ang + 2*M_PI;
+    }
+    else {
+        return ang;
+    }
+}
+
+
 void ode_solver(double** x_2D, double* t, 
                 double (**dxdt) (double* x_1D, double t, double* param),
                 double* dxdt_param, double dt, int steps, 
@@ -26,7 +43,6 @@ void ode_solver(double** x_2D, double* t,
     double storage[num_var];
 
     for (register size_t i = 0; steps-1-i > 0; ++i) {
-
         for (register size_t n = 0; num_var - n > 0; ++n) {
             x_2D[i+1][n] = x_2D[i][n];
         }
@@ -47,6 +63,10 @@ void ode_solver(double** x_2D, double* t,
             
             constant_multiply(storage, k[j], dt * method.weights[j], num_var);
             dot_add(x_2D[i+1], storage, num_var);
+        }
+
+        for (register size_t n = 0; num_var - n > 0; ++n) {
+            x_2D[i+1][n] = angle_wrap(x_2D[i+1][n]);
         }
         
         t[i+1] = t[i] + dt;
