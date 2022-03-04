@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+rm ./object/*
+
 for FILE in $(ls src/)
     do
         gcc -std=c99 -O2 -I include/ -I ../include/ -I /software/gsl/2.6-gcc-8.4.0/include/ \
