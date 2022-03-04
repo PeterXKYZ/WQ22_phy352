@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <assignment5_2.h>
 
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
@@ -9,8 +8,12 @@
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_multifit_nlinear.h>
 
-const size_t n = 60;    // the number of data points to fit
-const size_t p = 2;     // the number of parameters in model function
+#include <utils.h>
+#include <assignment5_2.h>
+
+#define N 60    // the number of data points to fit
+#define P 3     // the number of parameters in model function
+
 
 int main() {
     // used to solve the trust region problem, no idea what that means
@@ -22,20 +25,20 @@ int main() {
 
     // allocate workspace with default paramters
     gsl_multifit_nlinear_workspace* w =
-        gsl_multifit_nlinear_alloc(T, &fdf_params, n, p);   
+        gsl_multifit_nlinear_alloc(T, &fdf_params, N, P);   
 
     // -------------------------------------------------------------------------------
     // params?
-    double t[n];
-    double y[n];
-    double weights[n];
+    double t[N];
+    double y[N];
+    double weights[N];
 
-    data d = {n, t, y};
+    data d = {N, t, y};
 
     // starting values
-    double x_init[p] = { 1500.0, -50.0, 100.0};
-    gsl_vector_view x = gsl_vector_view_array (x_init, p);
-    gsl_vector_view wts = gsl_vector_view_array(weights, n);
+    double x_init[P] = { 1500.0, -50.0, 100.0};
+    gsl_vector_view x = gsl_vector_view_array (x_init, P);
+    gsl_vector_view wts = gsl_vector_view_array(weights, N);
 
     // chi-squared values
     double chisq;
@@ -64,15 +67,15 @@ int main() {
     fdf.fvv = NULL;
 
     // matrix size
-    fdf.n = n;
-    fdf.p = p;
+    fdf.n = N;
+    fdf.p = P;
     fdf.params = &d;
 
     // ------------------------------------------------------------------------------
     // a Jacobian matrix and cost function
     gsl_vector* f;
     gsl_matrix* J;
-    gsl_matrix* covar = gsl_matrix_alloc (p, p);
+    gsl_matrix* covar = gsl_matrix_alloc (P, P);
 
     // ------------------------------------------------------------------------------
     // random generator
@@ -116,7 +119,7 @@ int main() {
     fprintf(stdout, "final   |f(x)| = %f\n", sqrt(chisq));
 
     {
-        double dof = n - p;
+        double dof = N - P;
         double c = GSL_MAX_DBL(1, sqrt(chisq / dof));
 
         fprintf(stdout, "chisq/dof = %g\n", chisq / dof);
