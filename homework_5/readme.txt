@@ -3,6 +3,10 @@ Let F_n = 1.476, F_n+1 = 1.479, F_n-1 = 1.4595.
 The Feigenbaum constant δ is (F_n - F_n-1) / (F_n+1 - F_n) = 5.5
 which is uh, a little bit off.
 
+Problem 2:
+Both fixed bg and 5-params plots are extremely similar to the point of indistinguishability.
+The fixed bg exponential is ever so slightly higher than the 5-params exponential. 
+
 TECHNICAL COMMENTS:
 - the plots are generated with Python's Matplotlib cuz I'm running out of time and didn't want 
 to fiddle with gnuplot.
