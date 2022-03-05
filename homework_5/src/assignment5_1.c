@@ -49,7 +49,7 @@ int main() {
     // FILE* fptr2 = fopen("data/assignment5_1_data/pendulum.dat", "w");
 
     // initial condition
-    x_2D[0][0] = 0;
+    x_2D[0][0] = 1;
     x_2D[0][1] = 0;
     t[0] = 0;
 
@@ -70,8 +70,7 @@ int main() {
 
         while (drive_period_count - j > 0 && max_time - k > 0) {
             if ( fabs(fmod(param[2]*t[k], tau)) - .5*dt < 0 ) {
-                // angle wrap x_2D[k][0]
-                // fprintf(fptr, "F_D: %lf Theta: %lf\n", F_D[i], x_2D[k][0]);
+                fprintf(fptr, "F_D: %lf Theta: %lf\n", F_D[i], x_2D[k][0]);
                 ++j;
             }
             ++k;
