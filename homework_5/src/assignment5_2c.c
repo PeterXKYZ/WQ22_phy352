@@ -37,7 +37,7 @@ int main() {
 
     // starting values
     // As, sigma, mu, Ab, tau
-    double x_init[P] = {100, 100, 10, 1500.0, -30.0};
+    double x_init[P] = {140, 130, 10, 1600.0, -30.0};
     gsl_vector_view x = gsl_vector_view_array (x_init, P);
     gsl_vector_view wts = gsl_vector_view_array(weights, N);
 

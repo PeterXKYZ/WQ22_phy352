@@ -12,7 +12,7 @@ int sig_bg_f (const gsl_vector* x, void* dat, gsl_vector* f)
     double mu = gsl_vector_get(x, 1);
     double sigma = gsl_vector_get(x, 2);
 
-    double Ab = gsl_vector_get(x, 3):
+    double Ab = gsl_vector_get(x, 3);
     double tau = gsl_vector_get(x, 4);
 
     for (size_t i = 0; i < n; i++) {
@@ -33,7 +33,7 @@ int sig_bg_df (const gsl_vector* x, void* dat, gsl_matrix* J)
     double mu = gsl_vector_get(x, 1);
     double sigma = gsl_vector_get(x, 2);
 
-    double Ab = gsl_vector_get(x, 3):
+    double Ab = gsl_vector_get(x, 3);
     double tau = gsl_vector_get(x, 4);
 
     for (size_t i = 0; i < n; i++) {
