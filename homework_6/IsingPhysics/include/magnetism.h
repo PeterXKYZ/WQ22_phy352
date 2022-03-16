@@ -23,6 +23,6 @@ double getMagnetization(IsingLattice2D* );
 double getMagnetizationForMPI(IsingLattice2D* );
 double getEnergyPerSpin(IsingLattice2D* );
 double getEnergySquaredPerSpin(IsingLattice2D* );
-//void getCorrelationInfo(IsingLattice2D*, CorrelationInfo* );
+void getCorrelationInfo(IsingLattice2D*, CorrelationInfo* );
 
 #endif

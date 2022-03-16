@@ -163,22 +163,3 @@ dumpLattice( IsingLattice2D* lattice )
     }
   }
 }
-
-
-
-//-----------------------------------------------------------------
-void 
-getCorrelationInfo(IsingLattice2D* lattice, CorrelationInfo* info ) 
-//-----------------------------------------------------------------
-{ 
-  int i;
-  IsingSpin *start = *(lattice->spinarray);
-  IsingSpin *ptr = (*(lattice->spinarray))->right;
-
-  for( i=0; i<lattice->xsize-1; i++ ) {
-    info->spinsums[i] += ptr->spin;
-    info->spinprodsums[i] += start->spin * ptr->spin;
-    ptr = ptr->right;
-  }
-  info->tests++;
-}
