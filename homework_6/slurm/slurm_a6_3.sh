@@ -29,5 +29,5 @@ else
 fi
 
 T=`echo "1 + ($id * .05)" | bc -l`
-./bin/assignment6_2.exe $RANDOM $T 0 $N | grep "T:" >> $path/C-T_${N}_${id}_.dat
+./bin/assignment6_3.exe $RANDOM $T 0 $N | grep "T:" > $path/C-T_${N}_${id}_.dat
 
