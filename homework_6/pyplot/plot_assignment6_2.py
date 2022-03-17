@@ -5,7 +5,7 @@ import numpy as np
 mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['mathtext.fontset'] = 'cm'
 
-_, T, _, EN = np.genfromtxt("../data/E-T.dat", unpack=True, dtype=float)
+_, T, _, EN = np.genfromtxt("../data/assignment6_2_data/E-T_combined.dat", unpack=True, dtype=float)
 
 fig, ax = plt.subplots()
 
