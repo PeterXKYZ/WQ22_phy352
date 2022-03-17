@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-if [! -d "$bin"]
+if [ ! -e "$bin"]
 then
     mkdir bin
 fi
