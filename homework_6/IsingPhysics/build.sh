@@ -1,13 +1,13 @@
 #!/usr/bin/bash
 
-if [! -d "$object"]
+if [ ! -e "$object"]
 then
-    mkdir object
+    mkdir "$object"
 fi
 
-if [! -d "$lib"]
+if [ ! -e "$lib"]
 then 
-    mkdir lib
+    mkdir "$lib"
 fi
 
 for FILE in $(ls src/)

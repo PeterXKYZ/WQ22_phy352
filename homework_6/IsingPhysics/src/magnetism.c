@@ -50,6 +50,24 @@ double getMagnetization(IsingLattice2D* lattice)
     return magnetism / (lattice->xsize * lattice->ysize);
 }
 
+
+double getEnergy(IsingLattice2D* lattice)
+{
+    IsingSpin* start_ptr = *(lattice->spinarray);
+    IsingSpin* ptr = start_ptr;
+    double energy = 0;
+
+    while( ptr->next != start_ptr ) { 
+        energy += ptr->E;
+        ptr = ptr->next;
+    }
+    energy += ptr->E;
+
+    return energy;
+}
+
+
+
 double getEnergyPerSpin(IsingLattice2D* lattice)
 {
     
@@ -64,6 +82,23 @@ double getEnergyPerSpin(IsingLattice2D* lattice)
     energy_per_spin += ptr->E;
 
     return energy_per_spin / (lattice->xsize * lattice->ysize);
+}
+
+
+double getEnergySquaredPerSpin(IsingLattice2D* lattice)
+{
+    
+    IsingSpin* start_ptr = *(lattice->spinarray);
+    IsingSpin* ptr = start_ptr;
+    double energy_per_spin = 0;
+
+    while( ptr->next != start_ptr ) { 
+        energy_per_spin += ptr->E;
+        ptr = ptr->next;
+    }
+    energy_per_spin += ptr->E;
+
+    return energy_per_spin * energy_per_spin / (lattice->xsize * lattice->ysize);
 }
 
 //-----------------------------------------------------------------

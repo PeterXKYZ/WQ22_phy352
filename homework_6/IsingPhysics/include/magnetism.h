@@ -21,6 +21,7 @@ void boltzmannFlip(IsingSpin* obj, IsingLattice2D* lptr );
 /* property averaging */
 double getMagnetization(IsingLattice2D* );
 double getMagnetizationForMPI(IsingLattice2D* );
+double getEnergy(IsingLattice2D* );
 double getEnergyPerSpin(IsingLattice2D* );
 double getEnergySquaredPerSpin(IsingLattice2D* );
 void getCorrelationInfo(IsingLattice2D*, CorrelationInfo* );
