@@ -11,15 +11,12 @@
 #SBATCH --job-name="assignment6_2"  # Name of job
 #SBATCH --array 0-19            # Job array 
 
-#id=${SLURM_ARRAY_TASK_ID}
-id=4
-
-rm ./slurm/output/*
+id=${SLURM_ARRAY_TASK_ID}
 
 i=`echo ".5 + $id" | bc -l`
 lim=`echo "$i + 1" | bc -l`
 while ((`echo "$i < $lim" | bc -l`))
     do
-        ./bin/assignment6_2.exe $RANDOM $i 0 | grep "T:" >> ./slurm/output/E-T_${id}.dat
+        ./bin/assignment6_2.exe $RANDOM $i 0 | grep "T:" >> ./data/assignment6_2_data/slurm_out/E-T_${id}.dat
         i=`echo "$i + 0.1" | bc -l`
 done
