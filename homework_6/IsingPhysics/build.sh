@@ -1,5 +1,15 @@
 #!/usr/bin/bash
 
+if [! -d "$object"]
+then
+    mkdir object
+fi
+
+if [! -d "$lib"]
+then 
+    mkdir lib
+fi
+
 for FILE in $(ls src/)
     do
         gcc -std=c99 -O2 -I include/ -I ../Ising/include/ src/$FILE -c -o object/$(echo $FILE | sed 's/c$/o/') -lm
