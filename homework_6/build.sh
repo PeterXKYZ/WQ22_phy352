@@ -1,5 +1,10 @@
 #!/usr/bin/bash
 
+if [! -d "$bin"]
+then
+    mkdir bin
+fi
+
 rm bin/*
 
 for FILE in $(ls src/)
