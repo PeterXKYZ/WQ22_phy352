@@ -3,7 +3,7 @@
 #include <IsingLattice2D.h>
 #include <magnetism.h>
 
-#define NSWEEPS 10000
+#define NSWEEPS 100000
 
 int main(int argc, char** argv) {
 
