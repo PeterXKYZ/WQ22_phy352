@@ -19,7 +19,7 @@ IsingLattice2D *
 create2DIsingLattice( int xsize, int ysize, double T, double H ) 
 //-----------------------------------------------------------------
 { 
-  int count=0, i, j;
+  size_t count=0, i, j;
   IsingLattice2D* lptr = (IsingLattice2D*) (malloc(sizeof(IsingLattice2D)));
   IsingSpin** ptr = (IsingSpin**) (calloc(ysize, xsize * sizeof(IsingSpin*)));
   lptr->spinarray = ptr; 
@@ -28,9 +28,9 @@ create2DIsingLattice( int xsize, int ysize, double T, double H )
   lptr->xsize = xsize; 
   lptr->ysize = ysize; 
 
-  for( i=0; i<ysize; i++ ) {
+  for( i = 0; i < ysize; ++i ) {
     ptr[i] = (IsingSpin*)(calloc(xsize, sizeof(IsingSpin) ));
-    for( j=0; j<xsize; j++ ) {  
+    for( j=0; j < xsize; ++j) {  
       ptr[i][j].ID = count;
       ptr[i][j].spin = SPIN;
       count++;
@@ -38,9 +38,9 @@ create2DIsingLattice( int xsize, int ysize, double T, double H )
   }
 
   lptr->Jmatrix = (double**)(calloc(xsize*ysize, xsize*ysize*sizeof(double)));
-  for( i=0; i<xsize*ysize; i++ ) { 
+  for( i = 0; i < xsize*ysize; ++i) { 
     lptr->Jmatrix[i] = (double*)(calloc(xsize*ysize, sizeof(double)));
-    for( j=0; j<xsize*ysize; j++ ) { 
+    for( j = 0; j < xsize*ysize; ++j) { 
       lptr->Jmatrix[i][j] = 1.;
     }
   }
@@ -61,13 +61,15 @@ void
 initialize2DLinks( IsingLattice2D*  lattice) 
 //-----------------------------------------------------------------
 { 
-  int i,j;
+  size_t i,j;
 
   IsingSpin** array = lattice->spinarray;
+  const int xsize = lattice->xsize;
+  const int ysize = lattice->ysize;
 
   /* set links for the interior bulk */
-  for( i=0; i<lattice->ysize; i++ ) {
-    for( j=0; j<lattice->xsize; j++ ) {
+  for( i=0; i < ysize; ++i ) {
+    for( j=0; j < xsize; ++j ) {
       array[i][j].left   = &(array[i][j-1]);
       array[i][j].right  = &(array[i][j+1]);
       array[i][j].below  = &(array[i-1][j]);
@@ -77,20 +79,20 @@ initialize2DLinks( IsingLattice2D*  lattice)
   }
   
   /* deal w/ the left & right boundaries */
-  for( i=0; i<lattice->ysize; i++ ) {
-    array[i][0].left        = &(array[i][lattice->xsize-1]);
-    array[i][lattice->xsize-1].right = &(array[i][0]);
+  for( i=0; i < ysize; ++i ) {
+    array[i][0].left        = &(array[i][xsize-1]);
+    array[i][xsize-1].right = &(array[i][0]);
     array[i][0].next        = &(array[i][1]);
-    if( i<lattice->ysize-1)
-      array[i][lattice->xsize-1].next  = &(array[i+1][0]);
+    if( i < ysize-1)
+      array[i][xsize-1].next  = &(array[i+1][0]);
     else
-      array[i][lattice->xsize-1].next  = &(array[0][0]);      
+      array[i][xsize-1].next  = &(array[0][0]);      
   }
 
   /* deal w/ the top & bottom boundaries */
-  for( j=0; j<lattice->xsize; j++ ) {
-    array[0][j].below       = &(array[lattice->ysize-1][j]);
-    array[lattice->ysize-1][j].above = &(array[0][j]);
+  for( j=0; j < xsize; ++j ) {
+    array[0][j].below       = &(array[ysize-1][j]);
+    array[ysize-1][j].above = &(array[0][j]);
   }
 
 }
@@ -136,9 +138,8 @@ initialize2DSpinsRandom( IsingLattice2D*  lattice, unsigned seed)
 void 
 sweep( IsingLattice2D* lattice, void (*flipfunc)(IsingSpin*, IsingLattice2D* lptr) )
 {
-
-    IsingSpin* ptr = *(lattice->spinarray);
     IsingSpin* start_ptr = *(lattice->spinarray);
+    IsingSpin* ptr = start_ptr;
     while( ptr->next != start_ptr ) { 
         flipfunc(ptr, lattice);
         ptr = ptr->next;

@@ -1,4 +1,5 @@
 #include <magnetism.h>
+#include <stdio.h>
 
 double energyFunction(IsingSpin* obj, IsingLattice2D* lptr)
 {
@@ -7,12 +8,13 @@ double energyFunction(IsingSpin* obj, IsingLattice2D* lptr)
 
     // If we add up all E in lattice, we would double count
     // the spin-interactions. Thus we must divide by 2.
-    obj->E = .5 * current_energy;
+    // obj->E = .5 * current_energy;
 
     // energy_difference = flipped_energy - current_energy,
     // but flipped_energy = -current_energy
-    double energy_difference = -2 * current_energy;
-    
+    double energy_difference = -2 * current_energy;   
+
+    return energy_difference;
 }
 
 void boltzmannFlip(IsingSpin* obj, IsingLattice2D* lptr)
@@ -21,13 +23,14 @@ void boltzmannFlip(IsingSpin* obj, IsingLattice2D* lptr)
     
     if (energy_difference <= 0) {
         obj->spin *= -1;
+        return;
     }
-    else {
-        double boltzmann_dist = exp(-energy_difference / (kB * lptr->T));
-        double rval = (double) rand() * iRAND_MAX;
-        if (rval - boltzmann_dist <= 0) {
-            obj->spin *= -1;
-        }
+    
+    double boltzmann_dist = exp(-energy_difference / (kB * lptr->T));
+    double rval = (double) rand() * iRAND_MAX;
+    
+    if (rval - boltzmann_dist <= 0) {
+        obj->spin *= -1;
     }
 }
 

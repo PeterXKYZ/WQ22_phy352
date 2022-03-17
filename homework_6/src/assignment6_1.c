@@ -3,7 +3,7 @@
 #include <IsingLattice2D.h>
 #include <magnetism.h>
 
-#define NSWEEPS 100000
+#define NSWEEPS 10000
 
 int main(int argc, char** argv) {
 
@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     double T = strtod(argv[2], NULL);
     double H = strtod(argv[3], NULL);
 
-    IsingLattice2D* lattice = create2DIsingLattice( 10, 10, T, H );
+    IsingLattice2D* lattice = create2DIsingLattice( 100, 100, T, H );
 
     // warm up if not wanting timeseries data ...
     for( size_t i = 0; i < 1000; ++i ) { 
