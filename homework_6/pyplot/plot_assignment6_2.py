@@ -10,6 +10,7 @@ _, T, _, EN = np.genfromtxt("../data/assignment6_2_data/E-T_combined.dat", unpac
 fig, ax = plt.subplots()
 
 ax.scatter(T, EN, s=2, color='C1')
-ax.set(xlabel=r"Temperature $T$", ylabel=r"Energy Per Spin $E/N$")
+ax.set(xlabel=r"Temperature $T$", ylabel=r"Energy Per Spin $\langle E \rangle/N$")
 
-plt.show()
+plt.tight_layout()
+fig.savefig("../graphics/E-T_plot.png")
