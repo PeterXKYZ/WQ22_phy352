@@ -40,5 +40,6 @@ void flipSpin(IsingSpin* obj);
 
 /* dump coordinates and spin values for all lattice sites */
 void dumpLattice( IsingLattice2D* lattice );
+void myDump( IsingLattice2D* lattice );
 
 #endif

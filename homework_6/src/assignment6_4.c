@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 
     for (size_t i = 1; i < N/2; ++i) {
         double f_minus_avgS2 = (info.spinprodsums[i])/info.tests
-        - (info.spinsums[1]/info.tests)*(info.spinsums[1]/info.tests);
+        - (info.spinsums[0]/info.tests)*(info.spinsums[0]/info.tests);
         printf("i: %d\tcorr_func: %f\n", i, f_minus_avgS2);
     }
 

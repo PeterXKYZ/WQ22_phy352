@@ -160,7 +160,24 @@ dumpLattice( IsingLattice2D* lattice )
     for( j=0; j<lattice->xsize; j++ ) {
       IsingSpin is = array[i][j];
       printf( "ID: %d\tx: %d\ty: %d\tspin: %f\n",
-	      is.ID,j,i,is.spin);
+	      is.ID, j, i, is.spin);
     }
+  }
+}
+
+
+//-----------------------------------------------------------------
+void 
+myDump( IsingLattice2D* lattice )
+//-----------------------------------------------------------------
+{
+  int i, j;
+  IsingSpin** array = lattice->spinarray;
+  for( i = 0; i < lattice->ysize; ++i ) {
+    for( j = 0; j < lattice->xsize; ++j ) {
+      IsingSpin is = array[i][j];
+      printf("%lf ", is.spin);
+    }
+    printf("\n");
   }
 }
