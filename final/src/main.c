@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <unistd.h>
 
 #include <IsingLattice2D.h>
 #include <pattern.h>
-#include <jmatrix.h>
+#include <Jmatrix.h>
 #include <neural.h>
 
 #define SWEEP_MAX 50
