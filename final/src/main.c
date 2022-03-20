@@ -11,10 +11,6 @@
 #define SLEEP 1
 
 int main(int argc, char** argv) {
-
-    unsigned seed = strtoul(argv[1], NULL, 10);
-    float randomization = strtof(argv[2], NULL);
-    float damage = strtof(argv[3], NULL);
     
     // M = number of patterns
     // N = network size (N x N)
