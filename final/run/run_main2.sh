@@ -6,7 +6,7 @@ for n in $(seq 1 7); do
 
     testp="./mystery/00${n}.dat"
     inputp=$(ls ./character_groups/00${n}/*.dat)
-    ./bin/main_hopfield.exe $RANDOM $frandomization $fdamage $testp ${inputp[*]} >& log
+    ./bin/main.exe $RANDOM $frandomization $fdamage $testp ${inputp[*]} >& log
 
     # get the index from the hamming distance ...
     index=`grep "nearest" log | awk '{print $3}'` 
